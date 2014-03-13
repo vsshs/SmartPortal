@@ -5,9 +5,11 @@
     <title>@ViewBag.Title - My ASP.NET MVC Application</title>
     @RenderSection("meta", required: false)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <link href="~/Content/themes/default/bootstrap.css" rel="stylesheet">
     <link href="~/Content/farbtastic.css" rel="stylesheet" />
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+    @Styles.Render("~/Content/themes/base/css");
     @Html.Partial("_html5shiv")
 
 </head>
@@ -26,7 +28,9 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/toastr.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
