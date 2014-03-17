@@ -26,5 +26,9 @@ namespace SmartPortal.Web.Models_API
         [JsonProperty("buzzer")]
         public bool Buzzer { get; set; }
 
+        public override string ToString()
+        {
+            return String.Format("{0}/{1}/{2}/{3}", R, G, B, Buzzer? "1":"0");
+        }
     }
 }

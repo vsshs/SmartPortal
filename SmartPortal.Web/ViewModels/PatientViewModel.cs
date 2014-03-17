@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SmartPortal.Model;
 
 namespace SmartPortal.Web.ViewModels
 {
@@ -19,5 +20,22 @@ namespace SmartPortal.Web.ViewModels
         public string Procedure;
         [JsonProperty("color")]
         public string Color;
+
+
+        public static PatientViewModel CreateFromPatient(Patient p)
+        {
+            return new PatientViewModel
+            {
+                Id = p.Id,
+                Color = string.Format("rgb({0}, {1}, {2})", p.Color.Red, p.Color.Green, p.Color.Blue),
+                Cpr = p.Cpr,
+                Location = p.Location,
+                Name = p.Name,
+                Procedure = p.Procedure,
+                RecordLocation = p.RecordLoaction
+            };
+        }
     }
+
+    
 }

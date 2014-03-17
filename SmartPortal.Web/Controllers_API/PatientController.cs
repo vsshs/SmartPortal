@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -10,6 +11,7 @@ using NooSphere.Model.Primitives;
 using SmartPortal.Web.Infrastructure;
 using SmartPortal.Web.Models;
 using SmartPortal.Web.Models_API;
+using SmartPortal.Web.ViewModels;
 
 namespace SmartPortal.Web.Controllers_API
 {
@@ -87,14 +89,43 @@ namespace SmartPortal.Web.Controllers_API
         }
 
         [System.Web.Http.HttpGet]
-        public ArduinoPatient CheckPatient(string id, long lastUpdated, string deviceAuth)
+        public ICollection<PatientViewModel> GetPatients()
         {
-            // validate auth
+            var patients = Portal.Instance().Patients.ToList();
 
-            var patient  = Portal.Instance().FindPatientById(id);
+            var result = new Collection<PatientViewModel>();
+
+            foreach (var patient in patients)
+            {
+                result.Add(PatientViewModel.CreateFromPatient(patient));
+            }
+            return result;
+        }
+            
+            
+        [System.Web.Http.HttpGet]
+        public string CheckPatient(string tagId="0", long lastUpdated= 0, string deviceAuth="0")
+        {
+            // validate device auth
+
+            // find tablet by tag id
+
+            
+            var patient  = Portal.Instance().FindPatientById(Portal.Instance().Patients.First().Id);
 
             if (patient == null)
                 return null;
+
+            return new ArduinoPatient
+            {
+                LastUpdated = patient.LastUpdated.ToBinary(),
+                R = patient.Color.Red,
+                G = patient.Color.Green,
+                B = patient.Color.Blue,
+                Buzzer = patient.Buzzer
+            }.ToString();
+
+            /*
 
             if (patient.LastUpdated > DateTime.FromBinary(lastUpdated))
                 return new ArduinoPatient
@@ -109,7 +140,7 @@ namespace SmartPortal.Web.Controllers_API
             {
                 return null;
             }
-
+            */
         }
 
     }

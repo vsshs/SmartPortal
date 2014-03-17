@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using NooSphere.Infrastructure.ActivityBase;
+using NooSphere.Infrastructure.Context.Location;
 using NooSphere.Infrastructure.Discovery;
 using NooSphere.Infrastructure.Helpers;
 using NooSphere.Model.Device;
@@ -48,13 +49,20 @@ namespace SmartPortal.Web
                 Owner = user
             };
             //create databaseconfiguration
-            var databaseConfiguration = new DatabaseConfiguration("127.0.0.1", 8080, "smartportal");
-            var activitySystem = new ActivitySystem(databaseConfiguration) { Device = device };
+            var databaseConfiguration = new DatabaseConfiguration("max", 8081, "smartportal");
+            var activitySystem = new ActivitySystem(databaseConfiguration)
+            {
+                Device = device,
+                Tracker = new LocationTracker("10.242.2.10") //vpn
+            
+            };
             //activitySystem.
 
             //var userActivitySystem = new ActivitySystem()
 
             Portal.Instance().ActivitySystem = activitySystem;
+
+            activitySystem.StartLocationTracker();
 
 
             //  HANDLERS
@@ -62,36 +70,34 @@ namespace SmartPortal.Web
             activitySystem.DeviceAdded += activitySystem_DeviceAdded;
             activitySystem.UserAdded += activitySystem_UserAdded;
             activitySystem.UserChanged += activitySystem_userChanged;
+            activitySystem.SubscribeToTagMoved(activity_HandleTagMoved);
 
-
+            /*
             //Start a activityservice which wraps an activity system into a REST service
             var activityService = new ActivityService(activitySystem, "127.0.0.1", 8060);
             activityService.Start();
 
             //make the system discoverable on the LAN
              activityService.StartBroadcast(DiscoveryType.Zeroconf, "smartPortalActivitySystem", "smartPortal", "1234");
+             */ 
 
 
         }
 
+        private void activity_HandleTagMoved(Detector detector, TagEventArgs e)
+        {
+            PatientsManager.Instance.BroadcastRecordLoactionChange("bf4cca52-19b0-4532-b367-f914c09e1c96", e.Tag.Detector.Name);
+        }
+
+
+        
         private void activitySystem_userChanged(object sender, UserEventArgs e)
         {
 
 
             var user = e.User as Patient;
             if (user != null)
-            {
-                PatientsManager.Instance.BroadcastUserUpdated(new PatientViewModel
-                {
-                    Id = user.Id,
-                    Color = string.Format("rgb({0}, {1}, {2})", user.Color.Red, user.Color.Green, user.Color.Blue),
-                    Cpr = user.Cpr,
-                    Location = user.Location,
-                    Name = user.Name,
-                    Procedure = user.Procedure,
-                    RecordLocation = user.RecordLoaction
-                });
-            }
+                PatientsManager.Instance.BroadcastUserUpdated(PatientViewModel.CreateFromPatient(user));
 
 
         }
@@ -119,16 +125,8 @@ namespace SmartPortal.Web
 
             var user = e.User as Patient;
             if (user != null)
-                PatientsManager.Instance.BroadcastUserAdded(new PatientViewModel
-                {
-                    Id = user.Id,
-                    Color = string.Format("rgb({0}, {1}, {2})", user.Color.Red, user.Color.Green, user.Color.Blue),
-                    Cpr = user.Cpr,
-                    Location = user.Location,
-                    Name = user.Name,
-                    Procedure = user.Procedure,
-                    RecordLocation = user.RecordLoaction
-                });
+                PatientsManager.Instance.BroadcastUserAdded(PatientViewModel.CreateFromPatient(user));
+
             Console.WriteLine("User {0} received directly from activitysystem", e.User.Name);
         }
 

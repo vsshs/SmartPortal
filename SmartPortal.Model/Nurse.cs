@@ -11,6 +11,32 @@ namespace SmartPortal.Model
     {
         private string _loginPin;
 
+        private string _tabletId;
+
+        public string TabletId
+        {
+            get
+            {
+                return _tabletId;
+            }
+
+            set
+            {
+                _tabletId = value;
+                OnPropertyChanged("tabletid");
+            }
+        }
+
+        public string Pin
+        {
+            get { return _loginPin; }
+            set
+            {
+                _loginPin = value;
+                OnPropertyChanged("pin");
+            }
+
+        }
 
 
     }

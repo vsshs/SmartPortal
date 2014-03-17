@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using NooSphere.Infrastructure.ActivityBase;
+using NooSphere.Infrastructure.Context.Location;
 using NooSphere.Model.Users;
 using SmartPortal.Model;
 
@@ -17,12 +18,13 @@ namespace SmartPortal.Web.Infrastructure
 
 
         public ObservableCollection<Patient> Patients { get; set; }
-
+        public ObservableCollection<Nurse> Nurses { get; set; }
         private static Portal _instance;
 
         private Portal()
         {
             Patients = new ObservableCollection<Patient>();
+            Nurses = new ObservableCollection<Nurse>();
         }
 
         public static Portal Instance()
@@ -48,6 +50,11 @@ namespace SmartPortal.Web.Infrastructure
                 foreach (var user in users.Where(u => u.GetType() == typeof(Patient)))
                 {
                     Patients.Add(user as Patient);
+                }
+
+                foreach (var user in users.Where(u => u.GetType() == typeof(Nurse)))
+                {
+                    Nurses.Add(user as Nurse);
                 }
             }
         }
@@ -88,12 +95,16 @@ namespace SmartPortal.Web.Infrastructure
 
         public Nurse VerifyPin(string pin)
         {
-            return new Nurse
-            {
-                Name = "DEMO"
-            };
+            var nurse = Nurses.FirstOrDefault(n => n.Pin != null && n.Pin.CompareTo(pin) == 0);
+            return nurse;
+        }
 
-            // IMPLEMENT AUTH HERE
+        public Nurse AddNurse(Nurse nurse)
+        {
+            _activitySystem.AddUser(nurse);
+            Nurses.Add(nurse);
+
+            return nurse;
         }
 
         public string Get()
@@ -109,6 +120,15 @@ namespace SmartPortal.Web.Infrastructure
         }
 
 
-        
+        public Nurse UpdateNurse(Nurse nurse)
+        {
+            _activitySystem.UpdateUser(nurse);
+            return nurse;
+        }
+
+        public void UpdateTagLocation(Tag tag)
+        {
+            
+        }
     }
 }

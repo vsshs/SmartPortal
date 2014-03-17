@@ -49,5 +49,10 @@ namespace SmartPortal.Web.Hubs
         {
             Clients.All.updatePatient(patient);
         }
+
+        public void BroadcastShowPatient(string patientId, string tabletId)
+        {
+            Clients.All.showPatient(patientId, tabletId);
+        }
     }
 }

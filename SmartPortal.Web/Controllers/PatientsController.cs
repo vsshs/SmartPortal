@@ -16,6 +16,10 @@ namespace SmartPortal.Web.Controllers
         public ActionResult Index()
         {
             var patients = Portal.Instance().Patients;
+            var id = Session["NurseId"] as string;
+
+            ViewBag.NurseId = id;
+            ViewBag.TabletId = Session["NurseTablet"] as string;
             return View(patients);
         }
 
