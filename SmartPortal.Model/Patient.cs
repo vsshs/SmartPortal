@@ -87,7 +87,7 @@ namespace SmartPortal.Model
             set
             {
                 _buzzer = value;
-                OnPropertyChanged("buzzer");
+                //OnPropertyChanged("buzzer");
 
             }
         }

@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
 using Microsoft.AspNet.SignalR.Owin;
+using NooSphere.Infrastructure.Context.Location;
 using NooSphere.Model.Primitives;
 using SmartPortal.Web.Infrastructure;
 using SmartPortal.Web.Models;
@@ -88,6 +89,31 @@ namespace SmartPortal.Web.Controllers_API
 
         }
 
+        [System.Web.Http.HttpPost]
+        public ServerResponse<int> UpdateBuzzer(UpdateBuzzerModel model)
+        {
+            if (model == null)
+                throw new Exception("Could not deserialize model!");
+
+            var nurse = Portal.Instance().VerifyPin(model.Pin);
+
+
+            var patient = Portal.Instance().FindPatientById(model.PatientId);
+
+            if (patient == null)
+                return new ServerResponse<int>
+                {
+                    Success = false
+                };
+
+            patient.Buzzer = true;
+
+            Portal.Instance().UpdatePatient(patient);
+            return new ServerResponse<int>();
+
+        }
+
+
         [System.Web.Http.HttpGet]
         public ICollection<PatientViewModel> GetPatients()
         {
@@ -110,19 +136,34 @@ namespace SmartPortal.Web.Controllers_API
 
             // find tablet by tag id
 
-            
+            if (tagId != "0")
+            {
+                int decValue = Convert.ToInt32(tagId, 16);
+                Portal.Instance().UpdateTagLocation(new Tag
+                {
+                    Name = decValue.ToString()
+                });
+            }
             var patient  = Portal.Instance().FindPatientById(Portal.Instance().Patients.First().Id);
 
             if (patient == null)
                 return null;
 
+            var buzz = patient.Buzzer;
+
+            if (patient.Buzzer)
+            {
+                patient.Buzzer = false;
+
+                Portal.Instance().UpdatePatient(patient);
+            }
             return new ArduinoPatient
             {
                 LastUpdated = patient.LastUpdated.ToBinary(),
                 R = patient.Color.Red,
                 G = patient.Color.Green,
                 B = patient.Color.Blue,
-                Buzzer = patient.Buzzer
+                Buzzer = buzz
             }.ToString();
 
             /*

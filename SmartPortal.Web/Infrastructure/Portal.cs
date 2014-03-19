@@ -7,6 +7,7 @@ using NooSphere.Infrastructure.ActivityBase;
 using NooSphere.Infrastructure.Context.Location;
 using NooSphere.Model.Users;
 using SmartPortal.Model;
+using SmartPortal.Web.Hubs;
 
 namespace SmartPortal.Web.Infrastructure
 {
@@ -75,6 +76,9 @@ namespace SmartPortal.Web.Infrastructure
         public Patient AddPatient(Patient patient)
         {
             _activitySystem.AddUser(patient);
+
+            //_activitySystem.GetUsers().
+            //_activitySystem.getU
             Patients.Add(patient);
 
             
@@ -128,7 +132,7 @@ namespace SmartPortal.Web.Infrastructure
 
         public void UpdateTagLocation(Tag tag)
         {
-            
+            PatientsManager.Instance.BroadcastRecordLoactionChange("20dbf965-d96c-4a34-8586-2108e4a9eca7", tag.Name);
         }
     }
 }

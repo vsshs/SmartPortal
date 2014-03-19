@@ -52,8 +52,8 @@ namespace SmartPortal.Web
             var databaseConfiguration = new DatabaseConfiguration("max", 8081, "smartportal");
             var activitySystem = new ActivitySystem(databaseConfiguration)
             {
-                Device = device,
-                Tracker = new LocationTracker("10.242.2.10") //vpn
+                Device = device
+                //Tracker = new LocationTracker("10.242.2.10") //vpn
             
             };
             //activitySystem.
@@ -72,14 +72,14 @@ namespace SmartPortal.Web
             activitySystem.UserChanged += activitySystem_userChanged;
             activitySystem.SubscribeToTagMoved(activity_HandleTagMoved);
 
-            /*
+            
             //Start a activityservice which wraps an activity system into a REST service
             var activityService = new ActivityService(activitySystem, "127.0.0.1", 8060);
             activityService.Start();
 
             //make the system discoverable on the LAN
              activityService.StartBroadcast(DiscoveryType.Zeroconf, "smartPortalActivitySystem", "smartPortal", "1234");
-             */ 
+              
 
 
         }

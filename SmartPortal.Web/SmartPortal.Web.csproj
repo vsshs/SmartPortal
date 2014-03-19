@@ -245,6 +245,7 @@
     <Compile Include="Controllers_API\PatientController.cs" />
     <Compile Include="Controllers_API\Test2Controller.cs" />
     <Compile Include="Models_API\ArduinoPatient.cs" />
+    <Compile Include="Models_API\UpdateBuzzerModel.cs" />
     <Compile Include="Models_API\UpdateColorModel.cs" />
     <Compile Include="Models_API\UpdateRoomModel.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -516,7 +517,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>34141</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:22130/</IISUrl>
+          <IISUrl>http://localhost:34141/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

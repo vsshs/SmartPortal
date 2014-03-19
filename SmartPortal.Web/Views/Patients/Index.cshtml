@@ -65,10 +65,11 @@
                     <a class="btn btn-success button-procedure button-patient" data-patient-id="@patient.Id" href="#" title="Change patient's procedure">Procedure</a>
                     <a class="btn btn-success button-room button-patient" data-patient-id="@patient.Id" href="#" title="Change patient's room">Room</a>
                     <a class="btn btn-success button-color button-patient" data-patient-id="@patient.Id" href="#" title="Change patient's Color">Color</a>
+                    <a class="btn btn-success button-buzzer button-patient" data-patient-id="@patient.Id" href="#" title="Buzz the buzzer">Buzz</a>
                 </div>
             </div>
         </div>
-      */ 
+      */
     }
     
 </div>
@@ -256,6 +257,24 @@
                 $("#dialog-form-single").dialog("open");
             });
 
+
+            $('body').on('click', ".button-buzzer", function(event) {
+                event.preventDefault();
+                var url = baseUrl + 'api/patient/UpdateBuzzer';
+                var id = $(this).attr("data-patient-id");
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: "JSON",
+                    data: {
+                        patientId: id
+                    },
+                    success: function (result) {
+                        console.log(result);
+
+                    }
+                });
+            });
             $('body').on('click', ".button-color-select", function(event) {
                 event.preventDefault();
 
@@ -293,6 +312,7 @@
                         '            <a class="btn btn-success button-procedure button-patient" data-patient-id="__patient.Id" href="#" title="Change patient\'s procedure">Procedure</a>' +
                         '            <a class="btn btn-success button-room button-patient" data-patient-id="__patient.Id" href="#" title="Change patient\'s room">Room</a>' +
                         '            <a class="btn btn-success button-color button-patient" data-patient-id="__patient.Id" href="#" title="Change patient\'s Color">Color</a>' +
+                        '            <a class="btn btn-success button-buzzer button-patient" data-patient-id="__patient.Id" href="#" title="Buzz the buzzer">Buzz</a>' +
                         '        </div>' +
                         '    </div>' +
                         '</div>';
@@ -331,6 +351,12 @@
                     $("#patients-row").prepend(patientToHtml(patient));
                 }
             };
+
+            patientsHub.client.updatePatientsRecordLocation = function (patientId, location) {
+                
+                console.log(patientId + " LOCATION:  " + location);
+            };
+
 
             patientsHub.client.updatePatient = function(patient) {
 
