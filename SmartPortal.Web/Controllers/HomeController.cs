@@ -16,9 +16,17 @@ namespace SmartPortal.Web.Controllers
     {
         public ActionResult Index()
         {
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
             //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            return View();
+
 
             //return RedirectToAction("Index", "Patients"); //View();
         }
@@ -29,32 +37,39 @@ namespace SmartPortal.Web.Controllers
             [Required]
             public string Pin { get; set; }
 
-             [Required]
+            [Required]
             public string TabletId { get; set; }
         }
 
         [HttpPost]
         public ActionResult Login(PinLoginModel model)
         {
-            if (model != null && model.Pin != null)
+            try
             {
-                // verifyPin
-                var nurse = Portal.Instance().VerifyPin(model.Pin);
+                if (model != null && model.Pin != null)
+                {
+                    // verifyPin
+                    var nurse = Portal.Instance().VerifyPin(model.Pin);
 
-                if (nurse == null)
-                    return RedirectToAction("Index", "Home");
+                    if (nurse == null)
+                        return RedirectToAction("Index", "Home");
 
-                nurse.TabletId = model.TabletId;
+                    nurse.TabletId = model.TabletId;
 
-                nurse = Portal.Instance().UpdateNurse( nurse);
-                
-                Session["NurseID"] = nurse.Id;
-                Session["NurseTablet"] = model.TabletId;
+                    nurse = Portal.Instance().UpdateNurse(nurse);
 
-                return RedirectToAction("Index", "Patients"); //View(); 
+                    Session["NurseID"] = nurse.Id;
+                    Session["NurseTablet"] = model.TabletId;
+
+                    return RedirectToAction("Index", "Patients"); //View(); 
+                }
+
+                return RedirectToAction("Index", "Home");
             }
-
-            return RedirectToAction("Index", "Home");
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
 
@@ -62,7 +77,7 @@ namespace SmartPortal.Web.Controllers
         public string Broadcast()
         {
             var rnd = new Random();
-            PatientsManager.Instance.BrodcastLocationChange(1, "A."+rnd.Next(1, int.MaxValue));
+            PatientsManager.Instance.BrodcastLocationChange(1, "A." + rnd.Next(1, int.MaxValue));
             return "OK";
         }
 
@@ -71,7 +86,7 @@ namespace SmartPortal.Web.Controllers
             Portal.Instance().AddPatient(new Patient
             {
                 Cpr = "1234" + DateTime.UtcNow.ToBinary(),
-                Name = "P"+DateTime.UtcNow.ToBinary()
+                Name = "P" + DateTime.UtcNow.ToBinary()
             });
             return "OK";
         }
@@ -85,27 +100,5 @@ namespace SmartPortal.Web.Controllers
             });
             return "OK";
         }
-
-        public string Get()
-        {
-            return Portal.Instance().Get();
-        }
-
-        public string LastUpdated()
-        {
-            var p = Portal.Instance().Patients.First();
-            return p.LastUpdated.ToBinary().ToString();
-        }
-        public string Update()
-        {
-            var p = Portal.Instance().Patients.First();
-
-            p.Name = "UPDATED" + DateTime.Now.ToBinary();
-
-            Portal.Instance().UpdatePatient(p);
-
-            return "OK";
-        }
-        
     }
 }

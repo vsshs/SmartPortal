@@ -18,14 +18,14 @@ namespace SmartPortal.Web.Infrastructure
         private ActivityClient _client;
 
 
-        public ObservableCollection<Patient> Patients { get; set; }
-        public ObservableCollection<Nurse> Nurses { get; set; }
+        //public ObservableCollection<Patient> Patients { get; set; }
+        //public ObservableCollection<Nurse> Nurses { get; set; }
         private static Portal _instance;
 
         private Portal()
         {
-            Patients = new ObservableCollection<Patient>();
-            Nurses = new ObservableCollection<Nurse>();
+            //Patients = new ObservableCollection<Patient>();
+            //Nurses = new ObservableCollection<Nurse>();
         }
 
         public static Portal Instance()
@@ -46,17 +46,28 @@ namespace SmartPortal.Web.Infrastructure
             }
             set
             {
-                _activitySystem = value;
-                var users = _activitySystem.GetUsers();
-                foreach (var user in users.Where(u => u.GetType() == typeof(Patient)))
-                {
-                    Patients.Add(user as Patient);
-                }
 
-                foreach (var user in users.Where(u => u.GetType() == typeof(Nurse)))
+                _activitySystem = value;
+                /*
+                try
                 {
-                    Nurses.Add(user as Nurse);
+                    var users = _activitySystem.GetUsers();
+                    foreach (var user in users.Where(u => u.GetType() == typeof(Patient)))
+                    {
+                        Patients.Add(user as Patient);
+                    }
+
+                    foreach (var user in users.Where(u => u.GetType() == typeof(Nurse)))
+                    {
+                        Nurses.Add(user as Nurse);
+                    }
                 }
+                catch (Exception e)
+                {
+                    
+                    
+                }
+                */
             }
         }
 
@@ -75,11 +86,15 @@ namespace SmartPortal.Web.Infrastructure
 
         public Patient AddPatient(Patient patient)
         {
-            _activitySystem.AddUser(patient);
+            try
+            {
+                _activitySystem.AddUser(patient);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
 
-            //_activitySystem.GetUsers().
-            //_activitySystem.getU
-            Patients.Add(patient);
 
             
             return patient;
@@ -87,52 +102,104 @@ namespace SmartPortal.Web.Infrastructure
 
         public Patient UpdatePatient(Patient patient)
         {
-            patient.LastUpdated = DateTime.UtcNow;
-            _activitySystem.UpdateUser(patient);
-            return patient;
+            try
+            {
+                patient.LastUpdated = DateTime.UtcNow;
+                _activitySystem.UpdateUser(patient);
+                return patient;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            
         }
 
         public Patient FindPatientById(string id)
         {
-            return Patients.FirstOrDefault(p => p.Id.CompareTo(id) == 0);
+            var user = _activitySystem.GetUsers().FirstOrDefault(p => p.Id.CompareTo(id) == 0);
+            return user as Patient;
         }
 
         public Nurse VerifyPin(string pin)
         {
-            var nurse = Nurses.FirstOrDefault(n => n.Pin != null && n.Pin.CompareTo(pin) == 0);
-            return nurse;
+            try
+            {
+                if (string.IsNullOrEmpty(pin))
+                    return null;
+                var users = _activitySystem.GetUsers();
+                foreach (var user in users)
+                {
+                    var nurse = user as Nurse;
+                    if (nurse != null && !string.IsNullOrEmpty(nurse.Pin))
+                        if (nurse.Pin.CompareTo(pin) == 0)
+                            return nurse;
+                }
+
+                // no nurse with id found...
+                return null;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+           
         }
 
         public Nurse AddNurse(Nurse nurse)
         {
-            _activitySystem.AddUser(nurse);
-            Nurses.Add(nurse);
-
-            return nurse;
-        }
-
-        public string Get()
-        {
-            var users = _activitySystem.GetUsers();
-
-            var res = "";
-            foreach (var user in Patients)
+            try
             {
-                res += "<br> " + user.Id;
+                _activitySystem.AddUser(nurse);
+                
+                return nurse;
             }
-            return res;
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
-
 
         public Nurse UpdateNurse(Nurse nurse)
         {
-            _activitySystem.UpdateUser(nurse);
-            return nurse;
+            try
+            {
+                _activitySystem.UpdateUser(nurse);
+                return nurse;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            
         }
 
         public void UpdateTagLocation(Tag tag)
         {
             PatientsManager.Instance.BroadcastRecordLoactionChange("20dbf965-d96c-4a34-8586-2108e4a9eca7", tag.Name);
+        }
+
+        public ICollection<Nurse> GetNurses()
+        {
+            var result = new Collection<Nurse>();
+            var users = _activitySystem.GetUsers();
+            foreach (var nurse in users.OfType<Nurse>())
+            {
+                result.Add(nurse);
+            }
+            return result;
+        }
+
+        public ICollection<Patient> GetPatients()
+        {
+            var result = new Collection<Patient>();
+            var users = _activitySystem.GetUsers();
+            foreach (var patient in users.OfType<Patient>())
+            {
+                result.Add(patient);
+            }
+            return result;
         }
     }
 }

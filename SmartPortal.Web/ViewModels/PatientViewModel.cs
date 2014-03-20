@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
 using SmartPortal.Model;
 
 namespace SmartPortal.Web.ViewModels
@@ -20,10 +21,22 @@ namespace SmartPortal.Web.ViewModels
         public string Procedure;
         [JsonProperty("color")]
         public string Color;
+        [JsonProperty("rfid")]
+        public int Rfid;
 
+        [JsonProperty("lastMessage")] 
+        public string LastMessage;
 
         public static PatientViewModel CreateFromPatient(Patient p)
         {
+            var lastMessage = "";
+            var m = p.NurseMessages.FirstOrDefault();
+            if (m != null)
+            {
+               m = p.NurseMessages.OrderBy(msg => msg.CreatedAt).FirstOrDefault();
+                if (m.Message != null)
+                    lastMessage = m.Message;
+            }
             return new PatientViewModel
             {
                 Id = p.Id,
@@ -32,7 +45,10 @@ namespace SmartPortal.Web.ViewModels
                 Location = p.Location,
                 Name = p.Name,
                 Procedure = p.Procedure,
-                RecordLocation = p.RecordLoaction
+                RecordLocation = p.RecordLoaction,
+                Rfid =  p.RfidTag,
+                LastMessage = lastMessage
+
             };
         }
     }

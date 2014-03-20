@@ -32,27 +32,68 @@ namespace SmartPortal.Web.Hubs
 
         public void BrodcastLocationChange(int patientId, string location)
         {
-            Clients.All.updatePatientsLocation(patientId, location);
+            try
+            {
+                Clients.All.updatePatientsLocation(patientId, location);
+            }
+            catch (Exception)
+            {
+                
+                
+            }
+            
         }
 
         public void BroadcastRecordLoactionChange(string patientId, string location)
         {
-            Clients.All.updatePatientsRecordLocation(patientId, location);
+            try
+            {
+                Clients.All.updatePatientsRecordLocation(patientId, location);
+            }
+            catch (Exception)
+            {
+                
+            }
+            
         }
 
         public void BroadcastUserAdded(PatientViewModel patient)
         {
-            Clients.All.addPatient(patient);
+            try
+            {
+                Clients.All.addPatient(patient);
+            }
+            catch (Exception)
+            {
+                
+            }
+            
         }
 
         public void BroadcastUserUpdated(PatientViewModel patient)
         {
-            Clients.All.updatePatient(patient);
+            try
+            {
+                Clients.All.updatePatient(patient);
+            }
+            catch (Exception)
+            {
+                
+            }
+            
         }
 
         public void BroadcastShowPatient(string patientId, string tabletId)
         {
-            Clients.All.showPatient(patientId, tabletId);
+            try
+            {
+                Clients.All.showPatient(patientId, tabletId);
+            }
+            catch (Exception)
+            {
+                
+            }
+            
         }
     }
 }

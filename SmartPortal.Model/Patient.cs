@@ -17,6 +17,9 @@ namespace SmartPortal.Model
         private string _recordLoaction;
         private string _lastUpdatedBinary;
         private bool _buzzer;
+        private int _rfidTag;
+        public ObservableCollection<NurseMessage> NurseMessages; 
+
         public Patient()
         {
             Name = "Unnamed";
@@ -26,6 +29,8 @@ namespace SmartPortal.Model
             Color = new Rgb(0, 0, 0);
             LastUpdated = DateTime.UtcNow;
 
+
+            NurseMessages = new ObservableCollection<NurseMessage>();
             //Type = "Patient";
         }
 
@@ -39,8 +44,6 @@ namespace SmartPortal.Model
                 OnPropertyChanged("Cpr");
             }
         }
-
-        public ObservableCollection<string> Messages { get; set; }
 
         public string Location
         {
@@ -91,5 +94,17 @@ namespace SmartPortal.Model
 
             }
         }
+
+        public int RfidTag
+        {
+            get { return _rfidTag; }
+            set
+            {
+                _rfidTag = value;
+                OnPropertyChanged("rfidtag");
+            }
+        }
+
+        
     }
 }

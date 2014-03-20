@@ -27,6 +27,10 @@ namespace SmartPortal.Web
                 .Include("~/Scripts/bootstrap*")
                 .Include("~/Scripts/farbtastic.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/knockout")
+                .Include("~/Scripts/knockout-{version}.js")
+                .Include("~/Scripts/knockout.mapping-latest.js"));
+
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include("~/Content/site.css")
                 .Include("~/Content/farbtastic.css"));

@@ -1,7 +1,4 @@
-﻿@using System.Web.Http.Routing
-@model ICollection<SmartPortal.Model.Patient>
-
-@{
+﻿@{
     ViewBag.Title = "Patients";
 }
 <style type="text/css">
@@ -24,6 +21,10 @@
             background-color: rgba(0, 0, 0, 0.8);
         }
 
+    #dialog-form-single, #dialog-form-color {
+        display: none;
+    }
+
     .button-patient {
         margin-top: 5px;
     }
@@ -36,42 +37,12 @@
 <div style="height: 50px"></div>
 <h1>Patients</h1>
 
-<p> Nurse ID: @ViewBag.NurseId</p>
-<p> Tablet ID: @ViewBag.TabletId</p>
+<p>Nurse ID: @ViewBag.NurseId</p>
+<p>Tablet ID: @ViewBag.TabletId</p>
 
-<div id ="loading">Loading. Please wait... </div>
+<div id="loading">Loading. Please wait... </div>
 
 <div class="row" id="patients-row">
-   
-
-    @foreach (var patient in Model)
-    {/*
-        <div class="col-xs-12 col-sm-6 col-md-3">
-            <div class="panel panel-default">
-                <div id="patient-@patient.Id-name" class="panel-heading">@patient.Name</div>
-                <div class="panel-body">
-                    <p id="patient-@patient.Id-cpr">CPR: @patient.Cpr</p>
-                    <p id="patient-@patient.Id-location">Room: @patient.Location</p>
-                    <p id="patient-@patient.Id-procedure">Proc: @patient.Procedure</p>
-                    <div class="panel panel-default">
-                        <div id="patient-@patient.Id-record-color-title" class="panel-heading" style="background-color: rgb(@patient.Color.Red, @patient.Color.Green, @patient.Color.Blue); color: rgb(255, 255, 255)">Record</div>
-                        <div class="panel-body">
-                            <p id="patient-@patient.Id-record-location">Location: Room @patient.RecordLoaction</p>
-                            <p>Color: <span id="patient-@patient.Id-record-color" style="background-color: rgb(@patient.Color.Red, @patient.Color.Green, @patient.Color.Blue); color: rgb(@patient.Color.Red, @patient.Color.Green, @patient.Color.Blue)">....</span></p>
-                        </div>
-                    </div>
-
-                    <a class="btn btn-success button-checkin button-patient" data-patient-id="@patient.Id" href="#" title="Checkin">Check in</a>
-                    <a class="btn btn-success button-procedure button-patient" data-patient-id="@patient.Id" href="#" title="Change patient's procedure">Procedure</a>
-                    <a class="btn btn-success button-room button-patient" data-patient-id="@patient.Id" href="#" title="Change patient's room">Room</a>
-                    <a class="btn btn-success button-color button-patient" data-patient-id="@patient.Id" href="#" title="Change patient's Color">Color</a>
-                    <a class="btn btn-success button-buzzer button-patient" data-patient-id="@patient.Id" href="#" title="Buzz the buzzer">Buzz</a>
-                </div>
-            </div>
-        </div>
-      */
-    }
-    
 </div>
 
 
@@ -80,25 +51,26 @@
         <input id="patientId" type="hidden" name="patientId" value="" />
         <div class="input-group">
             <span class="input-group-addon">Val</span>
-            <input id="editValue" type="text" class="form-control" placeholder="New Value" name="editValue">
+            <input id="editValue" type="text" class="form-control" placeholder="New Value" name="editValue" />
         </div>
 
         <div class="input-group">
             <span class="input-group-addon">Pin</span>
-            <input id="pin" type="password" class="form-control" placeholder="Pin" name="pin">
+            <input id="pin" type="password" class="form-control" placeholder="Pin" name="pin" />
         </div>
     </form>
 </div>
 
 <div id="dialog-form-color" title="Change color">
-    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(255, 51, 51)" data-R="255" data-G="51" data-B="51">Choose</a>
-    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(255, 255, 51)" data-R="255" data-G="255" data-B="51">Choose</a>
-    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(51, 255, 51)" data-R="51" data-G="255" data-B="51">Choose</a>
-    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(51, 255, 255)"data-R="51" data-G="255" data-B="255">Choose</a>
-    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(0, 0, 255)" data-R="0" data-G="0" data-B="255">Choose</a>
-    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(0, 255, 0)" data-R="0" data-G="255" data-B="0">Choose</a>
-    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(255, 0, 0)" data-R="255" data-G="0" data-B="0">Choose</a>
-    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(0, 0, 0)" data-R="0" data-G="0" data-B="0">Choose</a>
+    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(255, 255, 255)" data-r="255" data-g="255" data-b="255">Choose</a>
+    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(255, 255, 0)" data-r="255" data-g="255" data-b="0">Choose</a>
+    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(255, 0, 0)" data-r="255" data-g="0" data-b="0">Choose</a>
+    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(0, 0, 0)" data-r="0" data-g="0" data-b="0">Choose</a>
+    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(0, 0, 255)" data-r="0" data-g="0" data-b="255">Choose</a>
+    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(0, 255, 255)" data-r="0" data-g="255" data-b="255">Choose</a>
+    <a class="btn btn-success button-color-select" href="#" title="Change patient's color" style="background-color: rgb(0, 255, 0)" data-r="0" data-g="255" data-b="0">Choose</a>
+
+
 
 </div>
 
@@ -109,10 +81,10 @@
     <!--Reference the autogenerated SignalR hub script. -->
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
-        $(function() {
+        $(function () {
 
             var baseUrl = "@Url.Content("~")";
-            
+
             var myTabletId = '@ViewBag.TabletId';
             var patientId = $("#patientId");
             var editValue = $("#editValue");
@@ -124,7 +96,7 @@
                 width: 350,
                 modal: true,
 
-                close: function() {
+                close: function () {
                     clearForm();
                     //allFields.val( "" ).removeClass( "ui-state-error" );
                 }
@@ -142,19 +114,19 @@
                 width: 300,
                 modal: true,
                 buttons: {
-                    Cancel: function() {
+                    Cancel: function () {
                         colorActivePatientId = -1;
                         $("#dialog-form-color").dialog("close");
                     }
                 },
-                close: function() {
+                close: function () {
                     colorActivePatientId = -1;
                     //allFields.val( "" ).removeClass( "ui-state-error" );
                 }
             });
 
 
-            var saveButtonFunctionality_procedure = function() {
+            var saveButtonFunctionality_procedure = function () {
                 var url = baseUrl + 'api/patient/UpdateProcedure';
 
 
@@ -167,7 +139,7 @@
                         procedure: editValue.val(),
                         pin: pin.val()
                     },
-                    success: function(result) {
+                    success: function (result) {
                         console.log(result);
                         clearForm();
                         $("#dialog-form-single").dialog("close");
@@ -176,7 +148,7 @@
                 });
             };
 
-            var saveButtonFunctionality_room = function() {
+            var saveButtonFunctionality_room = function () {
                 var url = baseUrl + 'smartportal/api/patient/UpdateRoom';
 
 
@@ -189,7 +161,7 @@
                         room: editValue.val(),
                         pin: pin.val()
                     },
-                    success: function(result) {
+                    success: function (result) {
                         console.log(result);
                         clearForm();
                         $("#dialog-form-single").dialog("close");
@@ -198,8 +170,8 @@
                 });
             };
 
-            var saveButtonFunctionality_color = function(r, g, b) {
-                var url = baseUrl +'api/patient/UpdateColor';
+            var saveButtonFunctionality_color = function (r, g, b) {
+                var url = baseUrl + 'api/patient/UpdateColor';
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -211,7 +183,7 @@
                         b: b,
                         pin: pin.val()
                     },
-                    success: function(result) {
+                    success: function (result) {
                         console.log(result);
                         colorActivePatientId = -1;
                         $("#dialog-form-color").dialog("close");
@@ -221,13 +193,13 @@
             };
 
 
-            $('body').on('click', ".button-procedure", function(event) {
+            $('body').on('click', ".button-procedure", function (event) {
                 event.preventDefault();
                 $("#patientId").val($(this).attr("data-patient-id"));
                 $("#dialog-form-single").dialog('option', 'title', 'Update procedure');
                 $("#dialog-form-single").dialog('option', 'buttons', {
                     "Save": saveButtonFunctionality_procedure,
-                    Cancel: function() {
+                    Cancel: function () {
                         clearForm();
                         $(this).dialog("close");
                     }
@@ -236,19 +208,19 @@
                 $("#dialog-form-single").dialog("open");
             });
 
-            $('body').on('click', ".button-color", function(event) {
+            $('body').on('click', ".button-color", function (event) {
                 event.preventDefault();
                 colorActivePatientId = $(this).attr("data-patient-id");
                 $("#dialog-form-color").dialog("open");
             });
 
-            $('body').on('click', ".button-room", function(event) {
+            $('body').on('click', ".button-room", function (event) {
                 event.preventDefault();
                 $("#patientId").val($(this).attr("data-patient-id"));
                 $("#dialog-form-single").dialog('option', 'title', 'Update Room');
                 $("#dialog-form-single").dialog('option', 'buttons', {
                     "Save": saveButtonFunctionality_room,
-                    Cancel: function() {
+                    Cancel: function () {
                         clearForm();
                         $(this).dialog("close");
                     }
@@ -258,7 +230,7 @@
             });
 
 
-            $('body').on('click', ".button-buzzer", function(event) {
+            $('body').on('click', ".button-buzzer", function (event) {
                 event.preventDefault();
                 var url = baseUrl + 'api/patient/UpdateBuzzer';
                 var id = $(this).attr("data-patient-id");
@@ -275,7 +247,7 @@
                     }
                 });
             });
-            $('body').on('click', ".button-color-select", function(event) {
+            $('body').on('click', ".button-color-select", function (event) {
                 event.preventDefault();
 
                 var r = $(this).attr("data-R");
@@ -337,14 +309,15 @@
                 location: "",
                 recordLocation: "",
                 procedure: "",
-                color: ""
+                color: "",
+                lastMessage:""
             };
 
             // declaration
             var patientsHub = $.connection.patientsManagerHub;
 
             // methods
-            patientsHub.client.addPatient = function(patient) {
+            patientsHub.client.addPatient = function (patient) {
                 var exists = $("#patient-" + patient.id).length > 0;
                 if (!exists) {
                     toastr.info("Added a patient: " + patient.name);
@@ -353,12 +326,12 @@
             };
 
             patientsHub.client.updatePatientsRecordLocation = function (patientId, location) {
-                
+
                 console.log(patientId + " LOCATION:  " + location);
             };
 
 
-            patientsHub.client.updatePatient = function(patient) {
+            patientsHub.client.updatePatient = function (patient) {
 
                 toastr.info("Patient got UPDATED: " + patient.name);
 
@@ -371,7 +344,7 @@
             };
 
 
-            patientsHub.client.showPatient = function(patient, tabletId) {
+            patientsHub.client.showPatient = function (patient, tabletId) {
                 if (myTabletId.length > 0) {
                     if (myTabletId == tabletId) {
                         console.log("Should show patient with id: " + patient);
@@ -383,7 +356,7 @@
             // init
             $.connection.hub
                 .start()
-                .done(function() {
+                .done(function () {
                     //console.log("Connected");
                     toastr.info("Hub connected");
 
@@ -391,11 +364,11 @@
                         url: 'api/patient/getpatients',
                         type: 'GET',
                         accept: 'application/json',
-                        success: function(result) {
+                        success: function (result) {
                             console.log("Receuved");
                             console.log(result);
                             $('#loading').remove();
-                            $.each(result, function(i, item) {
+                            $.each(result, function (i, item) {
                                 $("#patients-row").prepend(patientToHtml(item));
                             });
 
@@ -403,7 +376,7 @@
                         }
                     });
                 })
-                .fail(function() {
+                .fail(function () {
                     toastr.error("Hub could not be reached!");
                     $('#loading').text("Error: Hub could not be reached");
                 });

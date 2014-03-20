@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SmartPortal.Model.Nurse>
+
+@{
+    ViewBag.Title = "Nurses";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateNurse", null, new { id = "createPerson" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pin)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TabletId)
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        @Html.Partial("_Nurse", item)
+    }
+
+</table>
+
+<div class="modal fade in" id="create-person">
+    <div id="create-person-container"></div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#create-person').modal({
+                show: false
+            });
+            
+            $('#createPerson').click(function (event) {
+                event.preventDefault();
+
+                var url = $(this).attr('href'); // the url to the controller
+
+                $.get(url + '', function (data) {
+                    $('#create-person-container').html(data);
+                    $('#create-person').modal('show');
+                });
+            });
+        });
+    </script>
+}

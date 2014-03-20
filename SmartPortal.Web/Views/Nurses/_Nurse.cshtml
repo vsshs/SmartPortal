@@ -1,0 +1,15 @@
+﻿@model SmartPortal.Model.Nurse
+<tr data-nurse-id="@Model.Id">
+    <th>
+        @Model.Name
+    </th>
+    <td>
+        @Model.Pin
+    </td>
+    <td>
+        @Model.TabletId
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    </td>
+</tr>

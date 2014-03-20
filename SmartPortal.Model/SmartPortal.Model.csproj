@@ -42,8 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HyprDevice.cs" />
-    <Compile Include="HyprTablet.cs" />
     <Compile Include="Nurse.cs" />
     <Compile Include="Patient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="content\toastr.less" />
-    <None Include="packages.config" />
     <None Include="Scripts\toastr.min.js.map" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

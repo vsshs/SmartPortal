@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.SignalR.Owin;
 using NooSphere.Infrastructure.Context.Location;
 using NooSphere.Model.Primitives;
+using SmartPortal.Model;
 using SmartPortal.Web.Infrastructure;
 using SmartPortal.Web.Models;
 using SmartPortal.Web.Models_API;
@@ -18,7 +19,7 @@ namespace SmartPortal.Web.Controllers_API
 {
     public class PatientController : ApiController
     {
-       
+
 
         [System.Web.Http.HttpPost]
         public ServerResponse<int> UpdateProcedure(UpdateProcedureModel model)
@@ -27,8 +28,8 @@ namespace SmartPortal.Web.Controllers_API
                 throw new Exception("Could not deserialize model!");
 
             var nurse = Portal.Instance().VerifyPin(model.Pin);
-            
-            
+
+
             var patient = Portal.Instance().FindPatientById(model.PatientId);
 
             if (patient == null)
@@ -38,6 +39,10 @@ namespace SmartPortal.Web.Controllers_API
                 };
 
             patient.Procedure = model.Procedure;
+            patient.NurseMessages.Add(new NurseMessage
+            {
+                Message = string.Format("Nurse {0} changed procedure {1}", nurse.Name, model.Procedure )
+            });
             Portal.Instance().UpdatePatient(patient);
             return new ServerResponse<int>();
 
@@ -71,7 +76,7 @@ namespace SmartPortal.Web.Controllers_API
             if (model == null)
                 throw new Exception("Could not deserialize model!");
 
-            var nurse = Portal.Instance().VerifyPin(model.Pin);
+            //var nurse = Portal.Instance().VerifyPin(model.Pin);
 
 
             var patient = Portal.Instance().FindPatientById(model.PatientId);
@@ -117,7 +122,7 @@ namespace SmartPortal.Web.Controllers_API
         [System.Web.Http.HttpGet]
         public ICollection<PatientViewModel> GetPatients()
         {
-            var patients = Portal.Instance().Patients.ToList();
+            var patients = Portal.Instance().GetPatients().ToList();
 
             var result = new Collection<PatientViewModel>();
 
@@ -127,61 +132,54 @@ namespace SmartPortal.Web.Controllers_API
             }
             return result;
         }
-            
-            
+
+
+
+        // for arduino
         [System.Web.Http.HttpGet]
-        public string CheckPatient(string tagId="0", long lastUpdated= 0, string deviceAuth="0")
+        public string CheckPatient(string tagId = "0", long lastUpdated = 0, string deviceAuth = "0")
         {
-            // validate device auth
-
-            // find tablet by tag id
-
-            if (tagId != "0")
+            try
             {
-                int decValue = Convert.ToInt32(tagId, 16);
-                Portal.Instance().UpdateTagLocation(new Tag
+                // validate device auth
+
+                // find tablet by tag id
+
+                if (tagId != "0")
                 {
-                    Name = decValue.ToString()
-                });
-            }
-            var patient  = Portal.Instance().FindPatientById(Portal.Instance().Patients.First().Id);
+                    int decValue = Convert.ToInt32(tagId, 16);
+                    Portal.Instance().UpdateTagLocation(new Tag
+                    {
+                        Name = decValue.ToString()
+                    });
+                }
+                var patient = Portal.Instance().FindPatientById(Portal.Instance().GetPatients().First().Id);
 
-            if (patient == null)
-                return null;
+                if (patient == null)
+                    return null;
 
-            var buzz = patient.Buzzer;
+                var buzz = patient.Buzzer;
 
-            if (patient.Buzzer)
-            {
-                patient.Buzzer = false;
+                if (patient.Buzzer)
+                {
+                    patient.Buzzer = false;
 
-                Portal.Instance().UpdatePatient(patient);
-            }
-            return new ArduinoPatient
-            {
-                LastUpdated = patient.LastUpdated.ToBinary(),
-                R = patient.Color.Red,
-                G = patient.Color.Green,
-                B = patient.Color.Blue,
-                Buzzer = buzz
-            }.ToString();
-
-            /*
-
-            if (patient.LastUpdated > DateTime.FromBinary(lastUpdated))
+                    Portal.Instance().UpdatePatient(patient);
+                }
                 return new ArduinoPatient
                 {
                     LastUpdated = patient.LastUpdated.ToBinary(),
                     R = patient.Color.Red,
                     G = patient.Color.Green,
                     B = patient.Color.Blue,
-                    Buzzer = patient.Buzzer
-                };
-            else
-            {
-                return null;
+                    Buzzer = buzz
+                }.ToString();
             }
-            */
+            catch (Exception)
+            {
+                return "?";
+            }
+
         }
 
     }

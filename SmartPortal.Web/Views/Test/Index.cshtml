@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "TEst";
+}
+
+<h2>Test</h2>
+
+<table class="table table-striped table-bordered table-condensed">
+    <tr> 
+        <th>id</th>
+        <th> Name</th>
+        <th>CPR</th>
+    </tr>
+    <tbody data-bind="foreach: Patients">
+        <tr>
+            <td data-bind="text: id"></td>
+            <td data-bind="text: name"></td>
+            <td data-bind="text: cpr"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div class="row" id="patients-row" data-bind="foreach: Patients">
+    <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading" data-bind="text: name, attr: {'id': 'patient-'+id+'-name'}"></div>
+                <div class="panel-body">
+                    <p data-bind="text: 'CPR: ' + cpr, attr: { 'id': 'patient-' + id + '-cpr' }"></p>
+                    <!--<p id="patient-_at_patient.Id-location">Room: _at_patient.Location</p>
+                        <p id="patient-_at_patient.Id-procedure">Proc: _at_patient.Procedure</p>
+                        <div class="panel panel-default">
+                            <div id="patient-_at_patient.Id-record-color-title" class="panel-heading" style="background-color: rgb(_at_patient.Color.Red, _at_patient.Color.Green, _at_patient.Color.Blue); color: rgb(255, 255, 255)">Record</div>
+                            <div class="panel-body">
+                                <p id="patient-_at_patient.Id-record-location">Location: Room _at_patient.RecordLoaction</p>
+                                <p>Color: <span id="patient-_at_patient.Id-record-color" style="background-color: rgb(_at_patient.Color.Red, _at_patient.Color.Green, _at_patient.Color.Blue); color: rgb(_at_patient.Color.Red, _at_patient.Color.Green, _at_patient.Color.Blue)">....</span></p>
+                            </div>
+                        </div>
+
+                        <a class="btn btn-success button-checkin button-patient" data-patient-id="_at_patient.Id" href="#" title="Checkin">Check in</a>
+                        <a class="btn btn-success button-procedure button-patient" data-patient-id="_at_patient.Id" href="#" title="Change patient's procedure">Procedure</a>
+                        <a class="btn btn-success button-room button-patient" data-patient-id="_at_patient.Id" href="#" title="Change patient's room">Room</a>
+                        <a class="btn btn-success button-color button-patient" data-patient-id="_at_patient.Id" href="#" title="Change patient's Color">Color</a>
+                        <a class="btn btn-success button-buzzer button-patient" data-patient-id="_at_patient.Id" href="#" title="Buzz the buzzer">Buzz</a>
+                        -->
+
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section scripts
+{
+    <script src="~/Scripts/Patient.js"></script>
+}
+

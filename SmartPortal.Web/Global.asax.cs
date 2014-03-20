@@ -70,8 +70,10 @@ namespace SmartPortal.Web
             activitySystem.DeviceAdded += activitySystem_DeviceAdded;
             activitySystem.UserAdded += activitySystem_UserAdded;
             activitySystem.UserChanged += activitySystem_userChanged;
-            activitySystem.SubscribeToTagMoved(activity_HandleTagMoved);
+            //activitySystem.SubscribeToTagMoved(activity_HandleTagMoved);
 
+
+            /*
             
             //Start a activityservice which wraps an activity system into a REST service
             var activityService = new ActivityService(activitySystem, "127.0.0.1", 8060);
@@ -79,7 +81,7 @@ namespace SmartPortal.Web
 
             //make the system discoverable on the LAN
              activityService.StartBroadcast(DiscoveryType.Zeroconf, "smartPortalActivitySystem", "smartPortal", "1234");
-              
+              */
 
 
         }
