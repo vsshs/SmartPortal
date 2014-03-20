@@ -49,7 +49,7 @@ namespace SmartPortal.Web
                 Owner = user
             };
             //create databaseconfiguration
-            var databaseConfiguration = new DatabaseConfiguration("max", 8081, "smartportal");
+            var databaseConfiguration = new DatabaseConfiguration("localhost", 8080, "smartportal");
             var activitySystem = new ActivitySystem(databaseConfiguration)
             {
                 Device = device
@@ -63,7 +63,7 @@ namespace SmartPortal.Web
             Portal.Instance().ActivitySystem = activitySystem;
 
             activitySystem.StartLocationTracker();
-
+            activitySystem.Tracker.TagEnter += Tracker_TagEnter;
 
             //  HANDLERS
             activitySystem.ActivityAdded += activitySystem_ActivityAdded;
@@ -84,6 +84,18 @@ namespace SmartPortal.Web
               */
 
 
+        }
+
+        private void Tracker_TagEnter(Detector detector, TagEventArgs e)
+        {
+            PatientsManager.Instance.BroadcastRecordLoactionChange(e.Tag.Id + ", tag name = " + e.Tag.Name, detector.Name);
+            Console.WriteLine("{0}:{1}:{2}, tag {3} entering Detector {4}",
+              DateTime.Now.Hour,
+             DateTime.Now.Minute,
+             DateTime.Now.Second,
+             e.Tag.Name,
+             detector.Name);
+            
         }
 
         private void activity_HandleTagMoved(Detector detector, TagEventArgs e)
