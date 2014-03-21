@@ -42,7 +42,8 @@ namespace SmartPortal.Web.Controllers
                 Cpr = model.Cpr,
                 RfidTag = model.Rfid,
                 Location = model.Location,
-                DeviceId = model.DeviceId
+                DeviceId = model.DeviceId,
+                SonitorTag = model.SonitorTag
             };
 
             Portal.Instance().AddPatient(patient);

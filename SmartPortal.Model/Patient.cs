@@ -19,10 +19,11 @@ namespace SmartPortal.Model
         private bool _buzzer;
         private int _rfidTag;
         private bool _blink;
+        private string _sonitorTag;
 
         private int _deviceId;
 
-        public ObservableCollection<NurseMessage> NurseMessages; 
+        public ObservableCollection<NurseMessage> NurseMessages { get; set; }
 
         public Patient()
         {
@@ -35,8 +36,12 @@ namespace SmartPortal.Model
 
 
             NurseMessages = new ObservableCollection<NurseMessage>();
+
+           // NurseMessages.CollectionChanged += NurseMessages_CollectionChanged;
             //Type = "Patient";
         }
+
+       
 
 
         public string Cpr
@@ -128,6 +133,16 @@ namespace SmartPortal.Model
                 _deviceId = value;
                 OnPropertyChanged("deviceid");
 
+            }
+        }
+
+        public string SonitorTag
+        {
+            get { return _sonitorTag; }
+            set
+            {
+                _sonitorTag = value;
+                OnPropertyChanged("sonitorTag");
             }
         }
         

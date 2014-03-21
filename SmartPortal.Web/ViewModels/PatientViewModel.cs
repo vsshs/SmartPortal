@@ -28,7 +28,10 @@ namespace SmartPortal.Web.ViewModels
         public int DeviceId { get; set; }
 
         [JsonProperty("lastMessage")] 
-        public string LastMessage;
+        public string LastMessage {get; set;}
+
+        [JsonProperty("sonitorTag")]
+        public string SonitorTag { get; set; }
 
         public static PatientViewModel CreateFromPatient(Patient p)
         {

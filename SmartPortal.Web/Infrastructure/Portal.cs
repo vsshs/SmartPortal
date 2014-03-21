@@ -128,6 +128,12 @@ namespace SmartPortal.Web.Infrastructure
 
         }
 
+        public Patient  FindPatientByTagId(string tagId)
+        {
+            return
+             GetPatients().ToList().FirstOrDefault(p => p.SonitorTag == tagId);
+
+        }
         public Nurse VerifyPin(string pin)
         {
             try
@@ -182,10 +188,17 @@ namespace SmartPortal.Web.Infrastructure
 
         }
 
-        public void UpdateTagLocation(Tag tag)
+        public void HandleTagEnter(string tagId, string tagName, string detectorName)
         {
-            PatientsManager.Instance.BroadcastRecordLoactionChange("20dbf965-d96c-4a34-8586-2108e4a9eca7", tag.Name);
+            var patient = FindPatientByTagId(int.Parse(tagId).ToString());
+            if (patient != null)
+            {
+                patient.RecordLoaction = detectorName;
+                Portal.Instance().UpdatePatient(patient);
+            }
         }
+
+
 
         public ICollection<Nurse> GetNurses()
         {

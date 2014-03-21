@@ -49,7 +49,7 @@ namespace SmartPortal.Web
                 Owner = user
             };
             //create databaseconfiguration
-            var databaseConfiguration = new DatabaseConfiguration("max", 8081, "smartportal");
+            var databaseConfiguration = new DatabaseConfiguration("localhost", 8080, "smartportal");
             var activitySystem = new ActivitySystem(databaseConfiguration)
             {
                 Device = device
@@ -64,6 +64,7 @@ namespace SmartPortal.Web
 
             activitySystem.StartLocationTracker();
             activitySystem.Tracker.TagEnter += Tracker_TagEnter;
+            activitySystem.Tracker.TagButtonDataReceived += Tracker_TagButtonDataReceived;
 
             //  HANDLERS
             activitySystem.ActivityAdded += activitySystem_ActivityAdded;
@@ -86,25 +87,20 @@ namespace SmartPortal.Web
 
         }
 
+        void Tracker_TagButtonDataReceived(Tag tag, TagEventArgs e)
+        {
+            
+            Portal.Instance().HandleTagEnter(tag.Id, tag.Name, tag.Detector.Name);
+        }
+
         private void Tracker_TagEnter(Detector detector, TagEventArgs e)
         {
-            PatientsManager.Instance.BroadcastRecordLoactionChange(e.Tag.Id + ", tag name = " + e.Tag.Name, detector.Name);
-            Console.WriteLine("{0}:{1}:{2}, tag {3} entering Detector {4}",
-              DateTime.Now.Hour,
-             DateTime.Now.Minute,
-             DateTime.Now.Second,
-             e.Tag.Name,
-             detector.Name);
+            Portal.Instance().HandleTagEnter(e.Tag.Id, e.Tag.Name, detector.Name);
+            //PatientsManager.Instance.BroadcastRecordLoactionChange(e.Tag.Id + ", tag name = " + e.Tag.Name, detector.Name);
+           // Console.WriteLine("{0}:{1}:{2}, tag {3} entering Detector {4}", DateTime.Now.Hour,          DateTime.Now.Minute, DateTime.Now.Second,       e.Tag.Name,      detector.Name);
             
         }
 
-        private void activity_HandleTagMoved(Detector detector, TagEventArgs e)
-        {
-            PatientsManager.Instance.BroadcastRecordLoactionChange("bf4cca52-19b0-4532-b367-f914c09e1c96", e.Tag.Detector.Name);
-        }
-
-
-        
         private void activitySystem_userChanged(object sender, UserEventArgs e)
         {
 

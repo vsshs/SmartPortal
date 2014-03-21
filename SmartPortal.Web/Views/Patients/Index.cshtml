@@ -358,7 +358,7 @@
                     .replace(new RegExp("__patient.Cpr", "g"), patientModel.cpr)
                     .replace(new RegExp("__patient.Location", "g"), patientModel.location)
                     .replace(new RegExp("__patient.Procedure", "g"), patientModel.procedure)
-                    .replace(new RegExp("__patient.RecordLoaction", "g"), patientModel.recordLocation)
+                    .replace(new RegExp("__patient.RecordLoaction", "g"), patientModel.recordLoacation)
                     .replace(new RegExp("__patient.Color", "g"), patientModel.color)
                     .replace(new RegExp("__patient.LastMessage", "g"),patientModel.lastMessage);
 
@@ -370,7 +370,7 @@
                 name: "",
                 cpr: "",
                 location: "",
-                recordLocation: "",
+                recordLoacation: "",
                 procedure: "",
                 color: "",
                 lastMessage:""
@@ -390,6 +390,7 @@
 
             patientsHub.client.updatePatientsRecordLocation = function (patientId, location) {
 
+               // $("#patient");
                 console.log(patientId + " LOCATION:  " + location);
             };
 

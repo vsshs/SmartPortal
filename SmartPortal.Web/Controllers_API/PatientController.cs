@@ -198,14 +198,14 @@ namespace SmartPortal.Web.Controllers_API
                 }
 
                 // find tablet by tag id
-
+                int decValue = 0;
                 if (tagId != "0")
                 {
-                    int decValue = Convert.ToInt32(tagId, 16);
-                    Portal.Instance().UpdateTagLocation(new Tag
-                    {
-                        Name = decValue.ToString()
-                    });
+                    decValue = Convert.ToInt32(tagId, 16);
+                    //Portal.Instance().UpdateTagLocation(new Tag
+                    //{
+                    //    Name = decValue.ToString()
+                    //});
 
                     if (patient.Blink)
                     {
@@ -214,11 +214,15 @@ namespace SmartPortal.Web.Controllers_API
                     }
 
                     
-                        PatientsManager.Instance.BroadcastShowPatient(patient.Id, decValue.ToString());
+                        
                 }
 
                 if (changed)
                     Portal.Instance().UpdatePatient(patient);
+
+
+                if (tagId != "0")
+                    PatientsManager.Instance.BroadcastShowPatient(patient.Id, decValue.ToString());
 
                 return new ArduinoPatient
                 {
