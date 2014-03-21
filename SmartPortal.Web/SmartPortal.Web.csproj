@@ -250,6 +250,7 @@
     <Compile Include="Controllers_API\PatientController.cs" />
     <Compile Include="Controllers_API\Test2Controller.cs" />
     <Compile Include="Models_API\ArduinoPatient.cs" />
+    <Compile Include="Models_API\UpdateMessageModel.cs" />
     <Compile Include="Models_API\UpdateBuzzerModel.cs" />
     <Compile Include="Models_API\UpdateColorModel.cs" />
     <Compile Include="Models_API\UpdateRoomModel.cs" />
@@ -414,6 +415,7 @@
     <None Include="Content\themes\default\bootstrap.less" />
     <None Include="Content\themes\default\variables.less" />
     <Content Include="Content\toastr.less" />
+    <None Include="Properties\PublishProfiles\Default Settings %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -489,6 +491,7 @@
     <Content Include="Views\Nurses\_CreateNurse.cshtml" />
     <Content Include="Views\Nurses\_Nurse.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Patients\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

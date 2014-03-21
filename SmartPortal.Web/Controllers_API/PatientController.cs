@@ -10,6 +10,7 @@ using Microsoft.AspNet.SignalR.Owin;
 using NooSphere.Infrastructure.Context.Location;
 using NooSphere.Model.Primitives;
 using SmartPortal.Model;
+using SmartPortal.Web.Hubs;
 using SmartPortal.Web.Infrastructure;
 using SmartPortal.Web.Models;
 using SmartPortal.Web.Models_API;
@@ -118,6 +119,38 @@ namespace SmartPortal.Web.Controllers_API
 
         }
 
+        [System.Web.Http.HttpPost]
+        public ServerResponse<int> UpdateMessage(UpdateMessageModel model)
+        {
+            if (model == null)
+                throw new Exception("Could not deserialize model!");
+
+            var nurse = Portal.Instance().VerifyPin(model.Pin);
+
+
+            var patient = Portal.Instance().FindPatientById(model.PatientId);
+
+
+            if (nurse == null || patient == null)
+            {
+                return new ServerResponse<int>
+                {
+                    Success = false
+                };
+
+            }
+            
+
+            patient.NurseMessages.Add(new NurseMessage
+            {
+                Message = model.Message,
+                NurseId = nurse.Id
+            });
+            patient.Blink = true;
+            Portal.Instance().UpdatePatient(patient);
+
+            return new ServerResponse<int>();
+        }
 
         [System.Web.Http.HttpGet]
         public ICollection<PatientViewModel> GetPatients()
@@ -137,11 +170,32 @@ namespace SmartPortal.Web.Controllers_API
 
         // for arduino
         [System.Web.Http.HttpGet]
-        public string CheckPatient(string tagId = "0", long lastUpdated = 0, string deviceAuth = "0")
+        public string CheckPatient(string tagId = "0", long lastUpdated = 0, int deviceAuth = 0)
         {
             try
             {
+                bool changed = false;
                 // validate device auth
+
+
+                Patient patient = null;
+
+                if (deviceAuth != 0)
+                {
+                    patient = Portal.Instance().FindPatientByDevice(deviceAuth);
+                    
+                }
+                if (patient == null)
+                    return null;
+
+                var buzz = patient.Buzzer;
+
+                if (patient.Buzzer)
+                {
+                    patient.Buzzer = false;
+
+                    changed = true;
+                }
 
                 // find tablet by tag id
 
@@ -152,27 +206,28 @@ namespace SmartPortal.Web.Controllers_API
                     {
                         Name = decValue.ToString()
                     });
+
+                    if (patient.Blink)
+                    {
+                        patient.Blink = false;
+                        changed = true;
+                    }
+
+                    
+                        PatientsManager.Instance.BroadcastShowPatient(patient.Id, decValue.ToString());
                 }
-                var patient = Portal.Instance().FindPatientById(Portal.Instance().GetPatients().First().Id);
 
-                if (patient == null)
-                    return null;
-
-                var buzz = patient.Buzzer;
-
-                if (patient.Buzzer)
-                {
-                    patient.Buzzer = false;
-
+                if (changed)
                     Portal.Instance().UpdatePatient(patient);
-                }
+
                 return new ArduinoPatient
                 {
                     LastUpdated = patient.LastUpdated.ToBinary(),
                     R = patient.Color.Red,
                     G = patient.Color.Green,
                     B = patient.Color.Blue,
-                    Buzzer = buzz
+                    Buzzer = buzz,
+                    Blink = patient.Blink
                 }.ToString();
             }
             catch (Exception)

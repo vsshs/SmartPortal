@@ -39,5 +39,15 @@ namespace SmartPortal.Model
             }
         }
 
+        public string NurseId
+        {
+            get { return _nurseId; }
+            set
+            {
+                _nurseId = value;
+                OnPropertyChanged("NurseId");
+            }
+        }
+
     }
 }

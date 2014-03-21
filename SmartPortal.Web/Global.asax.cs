@@ -49,7 +49,7 @@ namespace SmartPortal.Web
                 Owner = user
             };
             //create databaseconfiguration
-            var databaseConfiguration = new DatabaseConfiguration("localhost", 8080, "smartportal");
+            var databaseConfiguration = new DatabaseConfiguration("max", 8081, "smartportal");
             var activitySystem = new ActivitySystem(databaseConfiguration)
             {
                 Device = device

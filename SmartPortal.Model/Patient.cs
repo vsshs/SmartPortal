@@ -18,6 +18,10 @@ namespace SmartPortal.Model
         private string _lastUpdatedBinary;
         private bool _buzzer;
         private int _rfidTag;
+        private bool _blink;
+
+        private int _deviceId;
+
         public ObservableCollection<NurseMessage> NurseMessages; 
 
         public Patient()
@@ -95,6 +99,17 @@ namespace SmartPortal.Model
             }
         }
 
+        public bool Blink
+        {
+            get { return _blink; }
+            set
+            {
+                _blink = value;
+                OnPropertyChanged("blink");
+
+            }
+        }
+
         public int RfidTag
         {
             get { return _rfidTag; }
@@ -105,6 +120,16 @@ namespace SmartPortal.Model
             }
         }
 
+        public int DeviceId
+        {
+            get { return _deviceId; }
+            set
+            {
+                _deviceId = value;
+                OnPropertyChanged("deviceid");
+
+            }
+        }
         
     }
 }

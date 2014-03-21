@@ -8,21 +8,24 @@ namespace SmartPortal.Web.ViewModels
     public class PatientViewModel
     {
         [JsonProperty("id")]
-        public string Id;
+        public string Id { get; set; }
         [JsonProperty("name")]
-        public string Name;
+        public string Name { get; set; }
         [JsonProperty("cpr")]
-        public string Cpr;
+        public string Cpr { get; set; }
         [JsonProperty("location")]
-        public string Location;
+        public string Location { get; set; }
         [JsonProperty("recordLoacation")]
-        public string RecordLocation;
+        public string RecordLocation { get; set; }
         [JsonProperty("procedure")]
-        public string Procedure;
+        public string Procedure { get; set; }
         [JsonProperty("color")]
-        public string Color;
+        public string Color { get; set; }
         [JsonProperty("rfid")]
-        public int Rfid;
+        public int Rfid { get; set; }
+
+        [JsonProperty("deviceid")]
+        public int DeviceId { get; set; }
 
         [JsonProperty("lastMessage")] 
         public string LastMessage;

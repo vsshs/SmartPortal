@@ -40,8 +40,8 @@ namespace SmartPortal.Web.Infrastructure
         {
             get
             {
-                if (_activitySystem == null) 
-                    throw new Exception("ActivitySystem has not been created" );
+                if (_activitySystem == null)
+                    throw new Exception("ActivitySystem has not been created");
                 return _activitySystem;
             }
             set
@@ -96,7 +96,7 @@ namespace SmartPortal.Web.Infrastructure
             }
 
 
-            
+
             return patient;
         }
 
@@ -112,13 +112,20 @@ namespace SmartPortal.Web.Infrastructure
             {
                 return null;
             }
-            
+
         }
 
         public Patient FindPatientById(string id)
         {
             var user = _activitySystem.GetUsers().FirstOrDefault(p => p.Id.CompareTo(id) == 0);
             return user as Patient;
+        }
+
+        public Patient FindPatientByDevice(int deviceAuth)
+        {
+            return
+             GetPatients().ToList().FirstOrDefault(p => p.DeviceId == deviceAuth);
+
         }
 
         public Nurse VerifyPin(string pin)
@@ -143,7 +150,7 @@ namespace SmartPortal.Web.Infrastructure
             {
                 return null;
             }
-           
+
         }
 
         public Nurse AddNurse(Nurse nurse)
@@ -151,14 +158,14 @@ namespace SmartPortal.Web.Infrastructure
             try
             {
                 _activitySystem.AddUser(nurse);
-                
+
                 return nurse;
             }
             catch (Exception)
             {
                 return null;
             }
-            
+
         }
 
         public Nurse UpdateNurse(Nurse nurse)
@@ -172,7 +179,7 @@ namespace SmartPortal.Web.Infrastructure
             {
                 return null;
             }
-            
+
         }
 
         public void UpdateTagLocation(Tag tag)
@@ -201,5 +208,7 @@ namespace SmartPortal.Web.Infrastructure
             }
             return result;
         }
+
+
     }
 }

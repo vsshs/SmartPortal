@@ -1,0 +1,44 @@
+﻿@model SmartPortal.Web.ViewModels.PatientViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+<div style="margin-top: 50px;"></div>
+<h2>Create</h2>
+
+<div style="max-width: 400px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+    
+        <form>
+            <div class="input-group">
+               <label> Name</label>
+                <input id="name" type="text" class="form-control" placeholder="Enter name" name="name" />
+            </div>
+
+            <div class="input-group">
+                <label>CPR</label>
+                <input id="cpr" type="text" class="form-control" placeholder="Enter cpr" name="cpr" />
+            </div>
+
+            
+            
+            <div class="input-group">
+                <label>Location</label>
+                <input id="location" type="text" class="form-control" placeholder="Enter location" name="location" />
+            </div>
+            <div class="input-group">
+                <label>Device Id</label>
+                <input id="deviceid" type="text" class="form-control" placeholder="Enter Device id" name="deviceid" />
+            </div>
+
+            <div style="margin-top: 20px;"></div>
+            <button type="submit" class="btn">Save</button>
+        </form>
+    }
+
+    <div style="margin-top: 25px">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>

@@ -74,6 +74,9 @@
 
 </div>
 
+<div id="dialog-form-patient">
+    bla
+</div>
 
 @section scripts
 {
@@ -83,9 +86,13 @@
     <script type="text/javascript">
         $(function () {
 
+            var nurseId = '@ViewBag.NurseId'; // logged in nurse
+            var myTabletId = '@ViewBag.TabletId'; // rfid value of the tag
+            var isPatientShowing = false;
+            var showingPatientWithId;
+            
             var baseUrl = "@Url.Content("~")";
 
-            var myTabletId = '@ViewBag.TabletId';
             var patientId = $("#patientId");
             var editValue = $("#editValue");
             var pin = $("#pin");
@@ -102,6 +109,20 @@
                 }
             });
 
+            $("#dialog-form-patient").dialog({
+                autoOpen: false,
+                height: 450,
+                width: 350,
+                modal: true,
+
+                close: function () {
+                    $("#patient-" + showingPatientWithId).html($("#dialog-form-patient").html());
+                    $("#dialog-form-patient").html("");
+                    isPatientShowing = false;
+                    showingPatientWithId = -1;
+                    //allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            });
             function clearForm() {
                 patientId.val('');
                 editValue.val('');
@@ -193,6 +214,27 @@
             };
 
 
+            var saveButtonFunctionality_message = function () {
+                var url = baseUrl + 'api/patient/UpdateMessage';
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: "JSON",
+                    data: {
+                        patientId: patientId.val(),
+                        pin: pin.val(),
+                        message: editValue.val()
+
+            },
+                    success: function (result) {
+                        console.log(result);
+                        clearForm();
+                        $("#dialog-form-single").dialog("close");
+
+                    }
+                });
+            };
+
             $('body').on('click', ".button-procedure", function (event) {
                 event.preventDefault();
                 $("#patientId").val($(this).attr("data-patient-id"));
@@ -247,6 +289,24 @@
                     }
                 });
             });
+            
+
+            $('body').on('click', ".button-message", function (event) {
+                event.preventDefault();
+
+                $("#patientId").val($(this).attr("data-patient-id"));
+                $("#dialog-form-single").dialog('option', 'title', 'Add message');
+                $("#dialog-form-single").dialog('option', 'buttons', {
+                    "Save": saveButtonFunctionality_message,
+                    Cancel: function () {
+                        clearForm();
+                        $(this).dialog("close");
+                    }
+                });
+
+                $("#dialog-form-single").dialog("open");
+            });
+
             $('body').on('click', ".button-color-select", function (event) {
                 event.preventDefault();
 
@@ -281,11 +341,12 @@
                         '                    <p>Last msg: <span id="patient-__patient.Id-record-lastMessage">__patient.LastMessage</span></p> ' +
                         '                </div>' +
                         '            </div>' +
-                        '            <a class="btn btn-success button-checkin button-patient" data-patient-id="__patient.Id" href="#" title="Checkin">Check in</a>' +
+                        //'            <a class="btn btn-success button-checkin button-patient" data-patient-id="__patient.Id" href="#" title="Checkin">Check in</a>' +
                         '            <a class="btn btn-success button-procedure button-patient" data-patient-id="__patient.Id" href="#" title="Change patient\'s procedure">Procedure</a>' +
                         '            <a class="btn btn-success button-room button-patient" data-patient-id="__patient.Id" href="#" title="Change patient\'s room">Room</a>' +
                         '            <a class="btn btn-success button-color button-patient" data-patient-id="__patient.Id" href="#" title="Change patient\'s Color">Color</a>' +
                         '            <a class="btn btn-success button-buzzer button-patient" data-patient-id="__patient.Id" href="#" title="Buzz the buzzer">Buzz</a>' +
+                        '            <a class="btn btn-success button-message button-patient" data-patient-id="__patient.Id" href="#" title="Add message">Add Message</a>' +
                         '        </div>' +
                         '    </div>' +
                         '</div>';
@@ -298,7 +359,8 @@
                     .replace(new RegExp("__patient.Location", "g"), patientModel.location)
                     .replace(new RegExp("__patient.Procedure", "g"), patientModel.procedure)
                     .replace(new RegExp("__patient.RecordLoaction", "g"), patientModel.recordLocation)
-                    .replace(new RegExp("__patient.Color", "g"), patientModel.color);
+                    .replace(new RegExp("__patient.Color", "g"), patientModel.color)
+                    .replace(new RegExp("__patient.LastMessage", "g"),patientModel.lastMessage);
 
 
             }
@@ -336,6 +398,7 @@
 
                 toastr.info("Patient got UPDATED: " + patient.name);
 
+                console.log(patient);
                 var str = patientToHtml(patient);
                 var obj = $('<div/>').html(str);
 
@@ -345,11 +408,18 @@
             };
 
 
-            patientsHub.client.showPatient = function (patient, tabletId) {
+            patientsHub.client.showPatient = function (pId, tabletId) {
+                //console.log("show_patient" + pId + " " + tabletId);
                 if (myTabletId.length > 0) {
-                    if (myTabletId == tabletId) {
-                        console.log("Should show patient with id: " + patient);
-                        toastr.info("Should show patient with id: " + patient);
+                    if (myTabletId == tabletId && !isPatientShowing) {
+                        isPatientShowing = true;
+                        showingPatientWithId = pId;
+                        
+                        $("#dialog-form-patient").html($("#patient-" + showingPatientWithId).html());
+                        
+                        console.log("Should show patient with id: " + pId);
+                        toastr.info("Should show patient with id: " + pId);
+                        $("#dialog-form-patient").dialog('open');
                     }
                 }
             };
