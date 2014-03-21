@@ -26,9 +26,12 @@ namespace SmartPortal.Web.Models_API
         [JsonProperty("buzzer")]
         public bool Buzzer { get; set; }
 
+        [JsonProperty("blink")]
+        public bool Blink { get; set; }
+
         public override string ToString()
         {
-            return String.Format("{0}/{1}/{2}/{3}/0", R, G, B, Buzzer? "1":"0");
+            return String.Format("{0}/{1}/{2}/{3}/{4}/0", R, G, B, Buzzer ? "1" : "0", Blink ? "1" : "0");
         }
     }
 }
