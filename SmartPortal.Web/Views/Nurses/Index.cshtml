@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "CreateNurse", null, new { id = "createPerson" })
 </p>
-<table class="table">
+<table class="table" >
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -25,36 +25,35 @@
 
         <th></th>
     </tr>
-
-    @foreach (var item in Model)
+    
+    <tbody id="list-of-nurses">
+        @foreach (var item in Model)
     {
         @Html.Partial("_Nurse", item)
     }
+    </tbody>
+    
 
 </table>
 
-<div class="modal fade in" id="create-person">
-    <div id="create-person-container"></div>
+<!-- Small modal -->
+<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm" href="@Url.Action("CreateNurse", "Nurses")">Create nurse</button>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      
+    </div>
+  </div>
 </div>
 
-@section scripts
-{
+
+@section scripts{
     <script>
-        $(document).ready(function () {
-            $('#create-person').modal({
-                show: false
-            });
-            
-            $('#createPerson').click(function (event) {
-                event.preventDefault();
-
-                var url = $(this).attr('href'); // the url to the controller
-
-                $.get(url + '', function (data) {
-                    $('#create-person-container').html(data);
-                    $('#create-person').modal('show');
-                });
-            });
-        });
+        function handleError(ajaxContext) {
+            var response = ajaxContext.get_response();
+            var statusCode = response.get_statusCode();
+            alert("Sorry, the request failed with status code " + statusCode);
+        }
     </script>
 }

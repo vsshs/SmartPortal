@@ -72,7 +72,12 @@ namespace SmartPortal.Web.Controllers
             }
         }
 
-
+        public ActionResult Logout()
+        {
+            Session["NurseId"] = null;
+            Session["TabletId"] = null;
+            return RedirectToAction("Index", "Home");
+        }
 
         public string Broadcast()
         {

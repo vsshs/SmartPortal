@@ -5,9 +5,7 @@
 }
 
 <style>
-    .with-color {
-        color: whitesmoke !important;
-    }
+    
 
     .panel-body {
         padding: 5px 10px;
@@ -71,8 +69,8 @@
                 <!-- General info -->
                 <p>Room: <span data-bind="text: Location"></span></p>
                 <!-- Record data -->
-                <div class="well-heading with-color" data-bind="style: { backgroundColor: Color }"><b>&nbsp;Record:</b></div>
-                <div class="well well-sm well-moveup with-color" data-bind="style: { backgroundColor: Color }">
+                <div class="well-heading " data-bind="style: { backgroundColor: Color, color: WithColor }"><b>&nbsp;Record:</b></div>
+                <div class="well well-sm well-moveup" data-bind="style: { backgroundColor: Color, color: WithColor }">
                     <p><i>Loc: </i><span class="patient-data" data-bind="text: RecordLocation"></span></p>
                     <p><i>Proc: </i><span class="patient-data" data-bind="text: Procedure"></span></p>
                     <p><i>Msg: </i><span class="patient-data" data-bind="text: LastMessage"></span></p>
@@ -115,7 +113,8 @@
             var otherDataUrl = '@Url.Action("OtherPatientData", "Patients")';
             var nurseId = '@Session["NurseId"]';
             var myTabletId = '@ViewBag.TabletId'; // rfid value of the tag
-
+            var showingRecord = false;
+            var showingRecordId;
             var items = vm.items; // patient items for knocout
 
 
@@ -125,22 +124,40 @@
             $("body").on("click", ".btn-modal-close", function () {
                 //$('body').off('click', ".button-color-select", function () {
                 $("#load-edit-content-here").html("<img src='/Content/ajax-loader.gif' alt='Loading...'/>");
+                showingRecord = false;
                 //});
 
             });
 
             $("body").on("click", ".button-open", function (event) {
                 event.preventDefault();
+                var patientId = $(this).attr("data-patient-id");
+                openRecord(patientId);
+                return true;
+
+            });
+
+            function openRecord(patientId) {
                 if (nurseId.length == 0) {
                     toastr.error("Nobody is logged into the system!");
-                    return true;
+                    return;
                 }
 
                 console.log("should open ");
                 $('#myModal').modal({
                     keyboard: false
                 });
-                var patientId = $(this).attr("data-patient-id");
+
+                loadRecordContent(patientId);
+
+                showingRecord = true;
+                showingRecordId = patientId;
+                
+                console.log(showingRecordId);
+                return;
+            }
+            
+            function loadRecordContent(patientId) {
                 $("#load-edit-content-here")
                     .load(editContentUrl + "?patientId=" + patientId, function () {
                         $("#patient-data-other")
@@ -152,11 +169,10 @@
                             .load(messagesUrl + "?patientId=" + patientId)
                             .fadeIn();
                     });
+            }
 
-                return true;
 
-            });
-
+            
             var canBeClicked = true;
             $('body').on('click', ".button-color-select", function () {
                 if (!canBeClicked)
@@ -242,14 +258,16 @@
             patientsHub.client.addPatient = function (patient) {
                 toastr.info("Patient added: " + patient.name);
                 items.push(new ItemViewModel(
-                        patient.id,
-                        patient.name,
-                        patient.cpr,
-                        patient.location,
-                        patient.recordLoacation,
-                        patient.procedure,
-                        patient.color,
-                        patient.lastMessage));
+                    patient.id,
+                    patient.name,
+                    patient.cpr,
+                    patient.location,
+                    patient.recordLoacation,
+                    patient.procedure,
+                    patient.color,
+                    patient.lastMessage,
+                    patient.buzz,
+                    patient.lastUpdated));
 
             };
 
@@ -265,7 +283,8 @@
                     patient.procedure,
                     patient.color,
                     patient.lastMessage,
-                    patient.buzz);
+                    patient.buzz,
+                    patient.lastUpdated);
 
                 var itemFound;
                 var match = ko.utils.arrayFirst(vm.items(), function (item) {
@@ -289,13 +308,24 @@
                     itemFound.Color(itemToUpdate.Color());
                     itemFound.LastMessage(itemToUpdate.LastMessage());
                     itemFound.Buzz(itemToUpdate.Buzz());
+                    itemFound.LastUpdated(itemToUpdate.LastUpdated());
 
+                }
+                
+                if (showingRecord && patient.id === showingRecordId) {
+                    console.log("should reload");
+                    loadRecordContent(showingRecordId);
                 }
 
             };
 
+            
             patientsHub.client.showPatient = function (pId, tabletId) {
-                toastr.info("Showing patient id=" + pId + " on " + tabletId);
+                //toastr.info("Showing patient id=" + pId + " on " + tabletId);
+                if (myTabletId.length > 0  && myTabletId === tabletId && !showingRecord) {
+                    showingRecord = true;
+                    openRecord(pId);
+                }
             };
 
             // init
@@ -316,7 +346,17 @@
                             $('#loading').remove();
 
                             $.each(result, function (index, value) {
-                                items.push(new ItemViewModel(value.id, value.name, value.cpr, value.location, value.recordLoacation, value.procedure, value.color, value.lastMessage, value.buzz));
+                                items.push(new ItemViewModel(
+                                    value.id,
+                                    value.name,
+                                    value.cpr,
+                                    value.location,
+                                    value.recordLoacation,
+                                    value.procedure,
+                                    value.color,
+                                    value.lastMessage,
+                                    value.buzz,
+                                    value.lastUpdated));
                             });
 
                         }
