@@ -35,6 +35,8 @@ namespace SmartPortal.Web.ViewModels
 
         [JsonProperty("sonitorTag")]
         public string SonitorTag { get; set; }
+        [JsonProperty("buzz")]
+        public string Buzz { get; set; }
 
         public ICollection<NurseMessageViewModel> NurseMessages { get; set; }
 
@@ -59,7 +61,8 @@ namespace SmartPortal.Web.ViewModels
                 RecordLocation = string.IsNullOrEmpty(p.RecordLoaction) ? "- - -" : p.RecordLoaction,
                 Rfid = p.RfidTag,
                 LastMessage = string.IsNullOrEmpty(lastMessage)? "- - -":lastMessage,
-                NurseMessages = new Collection<NurseMessageViewModel>()
+                NurseMessages = new Collection<NurseMessageViewModel>(),
+                Buzz = p.Buzzer? "inherit": "none"
 
             };
         }
