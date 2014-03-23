@@ -30,7 +30,7 @@ namespace SmartPortal.Model
             Name = "Unnamed";
             Cpr = "010101-6666";
             //BaseType = typeof (Patient).Name;
-            Location = "Unknown";
+            Location = "";
             Color = new Rgb(0, 0, 0);
             LastUpdated = DateTime.UtcNow;
 
