@@ -430,7 +430,7 @@
                 .start()
                 .done(function () {
                     //console.log("Connected");
-                    toastr.info("Hub connected");
+                    toastr.info("Hub connected using " + $.connection.hub.transport.name);
 
                     $.ajax({
                         url: 'api/patient/getpatients',

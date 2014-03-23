@@ -188,6 +188,20 @@ namespace SmartPortal.Web.Infrastructure
 
         }
 
+        public Nurse FindNurseById(string nurseId)
+        {
+            try
+            {
+                return GetNurses().FirstOrDefault(n => n.Id.CompareTo(nurseId) == 0);
+            }
+            catch (Exception e)
+            {
+
+                return null;
+            }
+        }
+
+
         public void HandleTagEnter(string tagId, string tagName, string detectorName)
         {
             var patient = FindPatientByTagId(int.Parse(tagId).ToString());
@@ -223,5 +237,6 @@ namespace SmartPortal.Web.Infrastructure
         }
 
 
+        
     }
 }

@@ -50,30 +50,17 @@ namespace SmartPortal.Web
             };
             //create databaseconfiguration
             var databaseConfiguration = new DatabaseConfiguration("localhost", 8080, "smartportal");
-            var activitySystem = new ActivitySystem(databaseConfiguration)
-            {
-                Device = device
-                //Tracker = new LocationTracker("10.242.2.10") //vpn
-            
-            };
-            //activitySystem.
-
-            //var userActivitySystem = new ActivitySystem()
+            var activitySystem = new ActivitySystem(databaseConfiguration) { Device = device };
 
             Portal.Instance().ActivitySystem = activitySystem;
 
-            activitySystem.StartLocationTracker();
-            activitySystem.Tracker.TagEnter += Tracker_TagEnter;
-            activitySystem.Tracker.TagButtonDataReceived += Tracker_TagButtonDataReceived;
-
             //  HANDLERS
-            activitySystem.ActivityAdded += activitySystem_ActivityAdded;
-            activitySystem.DeviceAdded += activitySystem_DeviceAdded;
             activitySystem.UserAdded += activitySystem_UserAdded;
             activitySystem.UserChanged += activitySystem_userChanged;
-            //activitySystem.SubscribeToTagMoved(activity_HandleTagMoved);
+            activitySystem.StartLocationTracker();
+            activitySystem.Tracker.TagEnter += Tracker_TagEnter;
 
-
+            
             /*
             
             //Start a activityservice which wraps an activity system into a REST service
@@ -83,71 +70,28 @@ namespace SmartPortal.Web
             //make the system discoverable on the LAN
              activityService.StartBroadcast(DiscoveryType.Zeroconf, "smartPortalActivitySystem", "smartPortal", "1234");
               */
-
-
         }
-
-        void Tracker_TagButtonDataReceived(Tag tag, TagEventArgs e)
-        {
-            
-            Portal.Instance().HandleTagEnter(tag.Id, tag.Name, tag.Detector.Name);
-        }
-
+     
         private void Tracker_TagEnter(Detector detector, TagEventArgs e)
         {
             Portal.Instance().HandleTagEnter(e.Tag.Id, e.Tag.Name, detector.Name);
-            //PatientsManager.Instance.BroadcastRecordLoactionChange(e.Tag.Id + ", tag name = " + e.Tag.Name, detector.Name);
-           // Console.WriteLine("{0}:{1}:{2}, tag {3} entering Detector {4}", DateTime.Now.Hour,          DateTime.Now.Minute, DateTime.Now.Second,       e.Tag.Name,      detector.Name);
-            
         }
 
         private void activitySystem_userChanged(object sender, UserEventArgs e)
         {
-
-
             var user = e.User as Patient;
             if (user != null)
                 PatientsManager.Instance.BroadcastUserUpdated(PatientViewModel.CreateFromPatient(user));
-
-
         }
 
-        static void activityClient_DeviceAdded(object sender, DeviceEventArgs e)
-        {
-            Console.WriteLine("Device {0} received from activityclient over http", e.Device.Name);
-
-            Console.WriteLine("Associated user is {0}", e.Device.Owner.Name);
-        }
-
-        static void activityClient_UserAdded(object sender, UserEventArgs e)
-        {
-            Console.WriteLine("User {0} received from activityclient over http", e.User.Name);
-        }
-
-        static void activityClient_ActivityAdded(object sender, NooSphere.Infrastructure.ActivityEventArgs e)
-        {
-            Console.WriteLine("Activity {0} received from activityclient over http", e.Activity.Name);
-        }
-
+        
         static void activitySystem_UserAdded(object sender, UserEventArgs e)
         {
-            //if (typeof(Patient) != e.User.GetType()) return;
-
             var user = e.User as Patient;
             if (user != null)
                 PatientsManager.Instance.BroadcastUserAdded(PatientViewModel.CreateFromPatient(user));
-
-            Console.WriteLine("User {0} received directly from activitysystem", e.User.Name);
         }
 
-        static void activitySystem_DeviceAdded(object sender, DeviceEventArgs e)
-        {
-            Console.WriteLine("Device {0} received directly from activitysystem", e.Device.Name);
-        }
-
-        static void activitySystem_ActivityAdded(object sender, NooSphere.Infrastructure.ActivityEventArgs e)
-        {
-            Console.WriteLine("Activity {0} received directly from activitysystem", e.Activity.Name);
-        }
+        
     }
 }

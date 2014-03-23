@@ -72,7 +72,7 @@ namespace SmartPortal.Web.Controllers_API
 
         }
         [System.Web.Http.HttpPost]
-        public ServerResponse<int> UpdateColor(UpdateColorModel model)
+        public object UpdateColor(UpdateColorModel model)
         {
             if (model == null)
                 throw new Exception("Could not deserialize model!");
@@ -83,15 +83,12 @@ namespace SmartPortal.Web.Controllers_API
             var patient = Portal.Instance().FindPatientById(model.PatientId);
 
             if (patient == null)
-                return new ServerResponse<int>
-                {
-                    Success = false
-                };
+                return new { Success = false };
 
             patient.Color = new Rgb(model.R, model.G, model.B);
 
             Portal.Instance().UpdatePatient(patient);
-            return new ServerResponse<int>();
+            return new {Success = true};
 
         }
 

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SmartPortal.Web.ViewModels.NurseMessageViewModel>
+
+@{
+    var nurseId = Session["NurseId"] as string;
+    var disabled = "";
+    if (string.IsNullOrEmpty(nurseId))
+    {
+        disabled = "disabled";
+    }
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title" style="font-size: 0.9em;">Nurse messages</span>
+    </div>
+    <div class="panel-body" style="max-height: 350px; overflow: scroll; overflow-x:hidden;">
+        <div style="width: 100%">
+            
+            @using (Ajax.BeginForm("AddMessage", "Patients", 
+                new AjaxOptions
+            {
+                HttpMethod = "Post",
+                UpdateTargetId = "patient-data-messages",
+                OnBegin = "$('#patient-data-messages').html(\"<img src='/Content/ajax-loader.gif' alt='Loading...'/>\")",
+                OnComplete = "$('#patient-data-messages').hide().fadeIn()"
+            }))
+            {
+                <div class="input-group input-group-sm">
+                    <input type="hidden" name="nurseId" value="@nurseId"/>
+                    <input type="hidden" name="patientId" value="@ViewBag.PatientId"/>
+
+                    <input type="text" class="form-control" name="message" placeholder="Enter new message" @disabled required>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"@disabled >Add!</button>
+                    </span>
+                </div>
+                <!-- /input-group -->
+            }
+        </div>
+        <!-- /.col-lg-6 -->
+        @foreach (var message in Model)
+        {
+            <p>(@message.NurseName) @message.Message</p>
+        }
+    </div>
+</div>

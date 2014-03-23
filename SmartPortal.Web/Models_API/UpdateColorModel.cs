@@ -7,5 +7,6 @@
         public byte G { get; set; }
         public byte B { get; set; }
 
+
     }
 }

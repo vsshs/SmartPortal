@@ -8,5 +8,6 @@ namespace SmartPortal.Web.Models_API
     public class ApiAuth
     {
         public string Pin { get; set; }
+        public string NurseId { get; set; }
     }
 }

@@ -11,40 +11,44 @@
         <th> Name</th>
         <th>CPR</th>
     </tr>
-    <tbody data-bind="foreach: Patients">
+    <tbody data-bind="foreach: items">
         <tr>
-            <td data-bind="text: id"></td>
-            <td data-bind="text: name"></td>
-            <td data-bind="text: cpr"></td>
+            <td data-bind="text: Id"></td>
+            <td data-bind="text: Name"></td>
+            <td data-bind="text: Cpr"></td>
         </tr>
     </tbody>
 </table>
 
 
-<div class="row" id="patients-row" data-bind="foreach: Patients">
+
+
+<button id="test-add"> ADD</button>
+
+
+
+<div class="row" data-bind="foreach: items">
     <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading" data-bind="text: name, attr: {'id': 'patient-'+id+'-name'}"></div>
+                <div class="panel-heading" data-bind="text: Name">
+                </div>
                 <div class="panel-body">
-                    <p data-bind="text: 'CPR: ' + cpr, attr: { 'id': 'patient-' + id + '-cpr' }"></p>
-                    <!--<p id="patient-_at_patient.Id-location">Room: _at_patient.Location</p>
-                        <p id="patient-_at_patient.Id-procedure">Proc: _at_patient.Procedure</p>
-                        <div class="panel panel-default">
-                            <div id="patient-_at_patient.Id-record-color-title" class="panel-heading" style="background-color: rgb(_at_patient.Color.Red, _at_patient.Color.Green, _at_patient.Color.Blue); color: rgb(255, 255, 255)">Record</div>
-                            <div class="panel-body">
-                                <p id="patient-_at_patient.Id-record-location">Location: Room _at_patient.RecordLoaction</p>
-                                <p>Color: <span id="patient-_at_patient.Id-record-color" style="background-color: rgb(_at_patient.Color.Red, _at_patient.Color.Green, _at_patient.Color.Blue); color: rgb(_at_patient.Color.Red, _at_patient.Color.Green, _at_patient.Color.Blue)">....</span></p>
-                            </div>
-                        </div>
-
-                        <a class="btn btn-success button-checkin button-patient" data-patient-id="_at_patient.Id" href="#" title="Checkin">Check in</a>
-                        <a class="btn btn-success button-procedure button-patient" data-patient-id="_at_patient.Id" href="#" title="Change patient's procedure">Procedure</a>
-                        <a class="btn btn-success button-room button-patient" data-patient-id="_at_patient.Id" href="#" title="Change patient's room">Room</a>
-                        <a class="btn btn-success button-color button-patient" data-patient-id="_at_patient.Id" href="#" title="Change patient's Color">Color</a>
-                        <a class="btn btn-success button-buzzer button-patient" data-patient-id="_at_patient.Id" href="#" title="Buzz the buzzer">Buzz</a>
-                        -->
+                    <!-- General info -->
+                    <p>Room: <span data-bind="text: Location"></span></p>
+                    <!-- Record data -->
+                    <div class="well-heading with-color" data-bind="css:{'background-color' : Color}"><b>&nbsp;Record:</b></div>
+                    <div class="well well-sm well-moveup with-color" data-bind="css: { 'background-color': Color }">
+                        <p><i>Loc: </i><span class="patient-data" data-bind="text: RecordLocation"></span></p>
+                        <p><i>Proc: </i><span class="patient-data" data-bind="text: Procedure"></span></p>
+                        <p><i>Msg: </i><span class="patient-data" data-bind="text: LastMessage"></span></p>
+                    </div>
+                    <!-- Controls -->
+                    <a class="btn btn-success button-color button-patient" href="#" title="Change patient\'s Color" data-bind="attr:{'data-patient-id': Id}">Color</a>
+                    <a class="btn btn-info button-buzzer button-patient" href="#" title="Buzz the buzzer" data-bind="attr: { 'data-patient-id': Id }">Buzz</a>
+                    <a class="btn btn-primary button-open button-patient" title="Open the record" data-bind="attr: { 'data-patient-id': Id }">Open</a>
 
                 </div>
+
             </div>
         </div>
 </div>
@@ -66,17 +70,56 @@
 
 
 
-
-
-
-
-
-
-
-
-
 @section scripts
 {
     <script src="~/Scripts/Patient.js"></script>
+    
+    <script>
+        $(function() {
+
+            var items = vm.items;
+
+
+            
+
+            $("#test-add").click(function () {
+                console.log("click");
+
+                $.getJSON("/api/patient/getpatients", null, function (data) {
+                    //console.log(data);
+
+                    $.each(data, function(index, value) {
+                        items.push(new ItemViewModel(value.id, value.name, value.cpr, value.location, value.recordLoacation, value.procedure, value.color, value.lastMessage));
+                    });
+                });
+
+                /*
+                var itemToAdd = new ItemViewModel("id", "name", "cpr", "location", "recordLocation", "procedure", "color", "lastMessage");
+                var foundItem;
+
+                var match = ko.utils.arrayFirst(vm.items(), function (item) {
+                    //console.log(item);
+                    var found = itemToAdd.Id() === item.Id();
+                    console.log("found = " + found);
+                    if (found)
+                        foundItem = item;
+                    return found;
+                });
+
+                if (!match) {
+                    console.log("not match. adding");
+                    items.push(itemToAdd);
+                } else {
+                    console.log("match");
+                    foundItem.Name("john" + Date.now());
+                    
+                }
+                */
+
+                return true;
+            });
+        });
+        
+    </script>
 }
 

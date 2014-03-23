@@ -1,0 +1,202 @@
+﻿@model IEnumerable<SmartPortal.Web.ViewModels.PatientViewModel>
+
+@{
+    ViewBag.Title = "Patients";
+}
+
+<style>
+    .with-color {
+        color: whitesmoke !important;
+    }
+
+    .panel-body {
+        padding: 5px 10px;
+    }
+
+    .panel-heading {
+        padding: 5px 15px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .well-heading {
+        background-color: #f5f5f5;
+        border: 1px solid #e3e3e3;
+        border-radius: 3px;
+        max-width: 100px;
+        margin-bottom: 5px;
+    }
+
+    .well-moveup {
+        margin-top: -7px;
+    }
+
+    .well-sm {
+        margin-bottom: 1px;
+        overflow: hidden;
+    }
+
+    .button-patient {
+        width: 72px;
+        margin-top: 5px;
+    }
+
+    p {
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .patient-data {
+        font-size: .9em;
+    }
+
+    .modal-dialog {
+        width: 90%;
+    }
+</style>
+
+<div class="row">
+    @foreach (var patient in Model)
+    {
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-default">
+                <div 
+                    id="patient-@patient.Id-name" 
+                    class="panel-heading">
+                    @patient.Name (@patient.Cpr)
+                </div>
+                <div class="panel-body">
+                    <!-- General info -->
+                    <p>Room: <span id="patient-@patient.Id-location">@patient.Location</span></p>
+                    <!-- Record data -->
+                    <div class="well-heading with-color" style="background-color: @patient.Color"><b>&nbsp;Record:</b></div>
+                    <div class="well well-sm well-moveup with-color" style="background-color: @patient.Color">
+                        <p><i>Loc: </i><span class="patient-data" id="patient-@patient.Id-record-location">@patient.RecordLocation</span></p>
+                        <p><i>Proc: </i><span class="patient-data" id="patient-@patient.Id-procedure">@patient.Procedure</span></p>
+                        <p><i>Msg: </i><span class="patient-data" id="patient-@patient.Id-last-message">@patient.LastMessage</span></p>
+                    </div>
+                    <!-- Controls -->
+                    <a class="btn btn-success button-color button-patient" data-patient-id="@patient.Id" href="#" title="Change patient\'s Color">Color</a>
+                    <a class="btn btn-info button-buzzer button-patient" data-patient-id="@patient.Id" href="#" title="Buzz the buzzer">Buzz</a>
+                    <a class="btn btn-primary button-open button-patient" data-patient-id="@patient.Id" href="@Url.Action("Edit", "Patients", new { patientId = @patient.Id })" title="Open the record">Open</a>
+
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Modal -->
+<div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="load-edit-content-here">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm btn-modal-close" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(function () {
+            var editContentUrl = '@Url.Action("Edit", "Patients")';
+            var messagesUrl = '@Url.Action("AddMessage", "Patients")';
+            var otherDataUrl = '@Url.Action("OtherPatientData", "Patients")';
+            var nurseId = '@Session["NurseId"]';
+            $("body").on("click", ".btn-modal-close", function () {
+                //$('body').off('click', ".button-color-select", function () {
+                $("#load-edit-content-here").html("<img src='/Content/ajax-loader.gif' alt='Loading...'/>");
+                //});
+
+            });
+
+            $("body").on("click", ".button-open", function (event) {
+                event.preventDefault();
+                if (nurseId.length == 0) {
+                    toastr.error("Nobody is logged into the system!");
+                    return true;
+                }
+                    
+                console.log("should open ");
+                $('#myModal').modal({
+                    keyboard: false
+                });
+                var patientId = $(this).attr("data-patient-id");
+                $("#load-edit-content-here")
+                    .load(editContentUrl + "?patientId=" + patientId, function () {
+                        $("#patient-data-other")
+                            .hide()
+                            .load(otherDataUrl + "?patientId=" + patientId)
+                            .fadeIn();
+                        $("#patient-data-messages")
+                            .hide()
+                            .load(messagesUrl + "?patientId=" + patientId)
+                            .fadeIn();
+                    });
+                
+                return true;
+
+            });
+
+            var canBeClicked = true;
+            $('body').on('click', ".button-color-select", function () {
+                if (!canBeClicked)
+                    return true; // avpid double click
+                $(".button-color-select").prop('disabled', true);
+                //event.preventDefault();
+                canBeClicked = false;
+
+                console.log("--- button-color-select CLICK");
+
+                var r = $(this).attr("data-r");
+                var g = $(this).attr("data-g");
+                var b = $(this).attr("data-b");
+                var patientId = $(this).attr("data-patient-id");
+
+                console.log(r, ' ', g, ' ', b, ' ', patientId);
+
+                var url = '/api/patient/UpdateColor';
+                // 
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: "JSON",
+                    data: {
+                        patientId: patientId,
+                        r: r,
+                        g: g,
+                        b: b,
+                        nurseId: nurseId
+                    },
+                    success: function (result) {
+                        console.log("success");
+                        $("#other-patient-data-color").css("background-color", "rgb(" + r + "," + g + "," + b + ")");
+                        console.log(result);
+                        $(".button-color-select").prop('disabled', false);
+                        canBeClicked = true;
+                        toastr.success("Color has been changed");
+                        
+                    },
+                    fail: function () {
+                        console.log("fail");
+                        $(".button-color-select").prop('disabled', false);
+                        canBeClicked = true;
+                        toastr.fail("Error saving data!");
+                    }
+
+
+                });
+                return true;
+
+            });
+
+        });
+    </script>
+}
+

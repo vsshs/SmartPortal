@@ -1,0 +1,125 @@
+﻿@model SmartPortal.Web.ViewModels.PatientViewModel
+@using (Ajax.BeginForm("Edit", "Patients", new AjaxOptions
+    {
+        HttpMethod = "Post",
+        UpdateTargetId = "patient-data-other",
+        OnBegin = "$('#patient-data-other').html(\"<img src='/Content/ajax-loader.gif' alt='Loading...'/>\")",
+        OnComplete = "$('#patient-data-other').hide().fadeIn()"
+        
+        
+    }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal patient-data-edit" style="">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="panel-title" style="font-size: 0.9em;">Patient's data</span>
+            </div>
+            <div class="panel-body">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon">Name</span>
+                    <input type="text" class="form-control" placeholder="Name" name="name"value="@Model.Name">
+                </div>
+
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon ">Cpr</span>
+                    <input type="text" class="form-control" placeholder="Cpr" name="cpr" value="@Model.Cpr">
+                </div>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon ">Location</span>
+                    <input type="text" class="form-control" placeholder="Location" name="location" value="@Model.Location">
+                </div>
+
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon ">Procedure</span>
+                    <input type="text" class="form-control" placeholder="Procedure" name="procedure" value="@Model.Procedure">
+                </div>
+
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon ">Record Id</span>
+                    <input type="text" class="form-control" placeholder="Patient record id" name="deviceid"value="@Model.DeviceId">
+                </div>
+
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon ">Sonitor tag</span>
+                    <input type="text" class="form-control" placeholder="Sonitor tag id" name ="sonitortag" value="@Model.SonitorTag">
+                </div>
+
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon ">Record location</span>
+                    <input disabled type="text" class="form-control" placeholder="Record location" name="recordlocation" value="@Model.RecordLocation">
+                </div>
+                <!-- COLOR!!! -->
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon ">Color</span>
+                    <input id="other-patient-data-color" disabled type="text" class="form-control" style="background-color: @Model.Color;">
+                    <span class="input-group-btn">
+                        <button
+                            class="btn btn-default button-color-select"
+                            type="button"
+                            style="background-color: rgb(255, 0, 0)"
+                            data-r="255" data-g="0" data-b="0"
+                            data-patient-id="@Model.Id">
+                            Select
+                        </button>
+                    </span>
+                    <span class="input-group-btn">
+                        <button
+                            class="btn btn-default button-color-select"
+                            type="button"
+                            style="background-color: rgb(0, 255, 0);"
+                            data-r="0" data-g="255" data-b="0"
+                            data-patient-id="@Model.Id">
+                            Select
+                        </button>
+                    </span>
+                    <span class="input-group-btn button-color-select">
+                        <button
+                            class="btn btn-default button-color-select"
+                            type="button"
+                            style="background-color: rgb(0, 0, 255)"
+                            data-r="0" data-g="0" data-b="255"
+                            data-patient-id="@Model.Id">
+                            Select
+                        </button>
+                    </span>
+                    <span class="input-group-btn button-color-select">
+                        <button
+                            class="btn btn-default button-color-select"
+                            type="button"
+                            style="background-color: rgb(255, 255, 0)"
+                            data-r="255" data-g="255" data-b="0"
+                            data-patient-id="@Model.Id">
+                            Select
+                        </button>
+                    </span>
+                    <span class="input-group-btn button-color-select">
+                        <button
+                            class="btn btn-default button-color-select"
+                            type="button"
+                            style="background-color: rgb(0, 255, 255)"
+                            data-r="0" data-g="255" data-b="255"
+                            data-patient-id="@Model.Id">
+                            Select
+                        </button>
+                    </span>
+                </div>
+
+
+                <hr style="margin-top: 7px; margin-bottom: 7px;" />
+
+                <input
+                    class="btn btn-default btn-sm btn-group-justified"
+                    type="submit"
+                    value="Save"
+                    style="width: 70%; margin: 0 auto;" />
+
+
+
+            </div>
+        </div>
+    </div>
+}

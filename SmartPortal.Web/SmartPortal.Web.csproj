@@ -15,7 +15,7 @@
     <AssemblyName>SmartPortal.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -266,11 +266,14 @@
     <Compile Include="Models_API\UpdateProcedureModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Hubs\Startup.cs" />
+    <Compile Include="ViewModels\AddMessageViewModel.cs" />
+    <Compile Include="ViewModels\NurseMessageViewModel.cs" />
     <Compile Include="ViewModels\NurseViewModel.cs" />
     <Compile Include="ViewModels\PatientViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\ajax-loader.gif" />
     <Content Include="Content\farbtastic.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\marker.png" />
@@ -492,6 +495,10 @@
     <Content Include="Views\Nurses\_Nurse.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Patients\Create.cshtml" />
+    <Content Include="Views\Patients\Index2.cshtml" />
+    <Content Include="Views\Patients\_Edit.cshtml" />
+    <Content Include="Views\Patients\_NurseMessages.cshtml" />
+    <Content Include="Views\Patients\_OtherPatientData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -501,17 +508,17 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NooSphere\NooSphere\NooSphere.Infrastructure\NooSphere.Infrastructure.csproj">
-      <Project>{cf6bf4de-e88f-448e-8f6b-f5e2a9e3b033}</Project>
-      <Name>NooSphere.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NooSphere\NooSphere\NooSphere.Model\NooSphere.Model.csproj">
-      <Project>{dc2a799f-b985-4a95-9b3c-fecfe14b8597}</Project>
-      <Name>NooSphere.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SmartPortal.Model\SmartPortal.Model.csproj">
       <Project>{9D506F82-1A3C-4BC6-9EFA-C3CFD43CAE9F}</Project>
       <Name>SmartPortal.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\GitHub\NooSphere\NooSphere\NooSphere.Infrastructure\NooSphere.Infrastructure.csproj">
+      <Project>{cf6bf4de-e88f-448e-8f6b-f5e2a9e3b033}</Project>
+      <Name>NooSphere.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\GitHub\NooSphere\NooSphere\NooSphere.Model\NooSphere.Model.csproj">
+      <Project>{dc2a799f-b985-4a95-9b3c-fecfe14b8597}</Project>
+      <Name>NooSphere.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -532,7 +539,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>34141</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost</IISUrl>
+          <IISUrl>http://localhost:34141/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,6 +26,16 @@ namespace SmartPortal.Web.Controllers
         }
 
 
+        public ActionResult Index2()
+        {
+            var patients = Portal.Instance().GetPatients();
+            var viewModels = new Collection<PatientViewModel>();
+            foreach (var patient in patients)
+                viewModels.Add(PatientViewModel.CreateFromPatient(patient));
+
+            return View(viewModels);
+        }
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -48,6 +59,124 @@ namespace SmartPortal.Web.Controllers
 
             Portal.Instance().AddPatient(patient);
             return RedirectToAction("Create");
+        }
+
+        [HttpGet]
+        public ActionResult Edit(string patientId)
+        {
+            var patient = Portal.Instance().FindPatientById(patientId);
+            if (patient == null)
+                return HttpNotFound("Patient with id = " + patientId + " was not found");
+
+            var model = PatientViewModel.CreateFromPatient(patient);
+
+            foreach (var nurseMessage in patient.NurseMessages.OrderByDescending(m => m.CreatedAt))
+            {
+                model.NurseMessages.Add(new NurseMessageViewModel
+                {
+                    NurseName = Portal.Instance().FindNurseById(nurseMessage.NurseId).Name,
+                    Message = nurseMessage.Message
+                });
+            }
+            return PartialView("_Edit", model);
+        }
+
+
+        [HttpGet]
+        public ActionResult OtherPatientData(string patientId)
+        {
+            var patient = Portal.Instance().FindPatientById(patientId);
+            if (patient == null)
+                return HttpNotFound("Patient with id = " + patientId + " was not found");
+
+            var model = PatientViewModel.CreateFromPatient(patient);
+            
+            return PartialView("_OtherPatientData", model);
+            
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(PatientViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var patient = Portal.Instance().FindPatientById(model.Id);
+                if (patient == null)
+                    return HttpNotFound("Patient with id = " + model.Id + " was not found");
+
+                patient.Name = model.Name;
+                patient.Cpr = model.Cpr;
+                patient.Location = model.Location;
+                patient.Procedure = model.Procedure;
+                patient.DeviceId = model.DeviceId;
+                patient.SonitorTag = model.SonitorTag;
+                patient.RecordLoaction = model.RecordLocation;
+
+                Portal.Instance().UpdatePatient(patient);
+            }
+
+            return OtherPatientData(model.Id);
+        }
+
+
+        [HttpGet]
+        public ActionResult AddMessage(string patientId)
+        {
+            var patient = Portal.Instance().FindPatientById(patientId);
+            if (patient == null)
+                return HttpNotFound("Patient with id = " + patientId + " was not found");
+            var model = PatientViewModel.CreateFromPatient(patient);
+
+            foreach (var nurseMessage in patient.NurseMessages.OrderByDescending(m => m.CreatedAt))
+            {
+                model.NurseMessages.Add(new NurseMessageViewModel
+                {
+                    NurseName = Portal.Instance().FindNurseById(nurseMessage.NurseId).Name,
+                    Message = nurseMessage.Message
+                });
+            }
+
+            ViewBag.PatientId = patientId;
+            return PartialView("_NurseMessages", model.NurseMessages);
+
+        }
+
+        [HttpPost]
+        public ActionResult AddMessage(AddMessageViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var patient = Portal.Instance().FindPatientById(model.PatientId);
+                if (patient == null)
+                    return HttpNotFound("Patient with id = " + model.PatientId + " was not found");
+
+                var nurse = Portal.Instance().FindNurseById(model.NurseId);
+                if (nurse == null)
+                    return HttpNotFound("Nurse with id = " + model.NurseId + " was not found");
+
+                patient.NurseMessages.Add(new NurseMessage
+                {
+                    Message = model.Message,
+                    NurseId = nurse.Id
+                });
+
+                Portal.Instance().UpdatePatient(patient);
+
+                var m = PatientViewModel.CreateFromPatient(patient);
+
+                foreach (var nurseMessage in patient.NurseMessages.OrderByDescending(msg => msg.CreatedAt))
+                {
+                    m.NurseMessages.Add(new NurseMessageViewModel
+                    {
+                        NurseName = Portal.Instance().FindNurseById(nurseMessage.NurseId).Name,
+                        Message = nurseMessage.Message
+                    });
+                }
+                ViewBag.PatientId = model.PatientId;
+                return PartialView("_NurseMessages", m.NurseMessages);
+
+            }
+            return null;
         }
     }
 }
