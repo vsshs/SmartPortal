@@ -9,5 +9,6 @@ namespace SmartPortal.Web.ViewModels
     {
         public string Message { get; set; }
         public string NurseName { get; set; }
+        public DateTime Created { get; set; }
     }
 }

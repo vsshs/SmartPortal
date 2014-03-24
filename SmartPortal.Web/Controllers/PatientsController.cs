@@ -132,7 +132,8 @@ namespace SmartPortal.Web.Controllers
                 model.NurseMessages.Add(new NurseMessageViewModel
                 {
                     NurseName = Portal.Instance().FindNurseById(nurseMessage.NurseId).Name,
-                    Message = nurseMessage.Message
+                    Message = nurseMessage.Message,
+                    Created = DateTime.FromBinary(nurseMessage.CreatedAt)
                 });
             }
 
@@ -160,6 +161,8 @@ namespace SmartPortal.Web.Controllers
                     NurseId = nurse.Id
                 });
 
+                patient.Blink = true;
+
                 Portal.Instance().UpdatePatient(patient);
 
                 var m = PatientViewModel.CreateFromPatient(patient);
@@ -169,7 +172,8 @@ namespace SmartPortal.Web.Controllers
                     m.NurseMessages.Add(new NurseMessageViewModel
                     {
                         NurseName = Portal.Instance().FindNurseById(nurseMessage.NurseId).Name,
-                        Message = nurseMessage.Message
+                        Message = nurseMessage.Message,
+                        Created = DateTime.FromBinary(nurseMessage.CreatedAt)
                     });
                 }
                 ViewBag.PatientId = model.PatientId;

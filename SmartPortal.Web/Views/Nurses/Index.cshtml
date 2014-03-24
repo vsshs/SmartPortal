@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SmartPortal.Model.Nurse>
+﻿@using SmartPortal.Model
+@model IEnumerable<SmartPortal.Model.Nurse>
 
 @{
     ViewBag.Title = "Nurses";
@@ -29,7 +30,7 @@
     <tbody id="list-of-nurses">
         @foreach (var item in Model)
     {
-        @Html.Partial("_Nurse", item)
+        @Html.Partial("_Nurse", item )
     }
     </tbody>
     
@@ -55,5 +56,11 @@
             var statusCode = response.get_statusCode();
             alert("Sorry, the request failed with status code " + statusCode);
         }
+
+        $(function() {
+           
+        });
+        
+
     </script>
 }

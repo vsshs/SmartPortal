@@ -34,6 +34,10 @@ namespace SmartPortal.Web.Controllers
             
             if (ModelState.IsValid)
             {
+                var n = Portal.Instance().GetNurses().FirstOrDefault(_n => _n.Pin.CompareTo(model.Pin) == 0);
+
+                if (n != null)
+                    return null;
                 var nurse = Portal.Instance().AddNurse(new Nurse
                 {
                     Name = model.Name,
