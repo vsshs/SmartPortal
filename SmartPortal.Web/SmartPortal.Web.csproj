@@ -15,7 +15,7 @@
     <AssemblyName>SmartPortal.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -512,17 +512,17 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SmartPortal.Model\SmartPortal.Model.csproj">
-      <Project>{9D506F82-1A3C-4BC6-9EFA-C3CFD43CAE9F}</Project>
-      <Name>SmartPortal.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\GitHub\NooSphere\NooSphere\NooSphere.Infrastructure\NooSphere.Infrastructure.csproj">
+    <ProjectReference Include="..\..\NooSphere\NooSphere\NooSphere.Infrastructure\NooSphere.Infrastructure.csproj">
       <Project>{cf6bf4de-e88f-448e-8f6b-f5e2a9e3b033}</Project>
       <Name>NooSphere.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\GitHub\NooSphere\NooSphere\NooSphere.Model\NooSphere.Model.csproj">
+    <ProjectReference Include="..\..\NooSphere\NooSphere\NooSphere.Model\NooSphere.Model.csproj">
       <Project>{dc2a799f-b985-4a95-9b3c-fecfe14b8597}</Project>
       <Name>NooSphere.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmartPortal.Model\SmartPortal.Model.csproj">
+      <Project>{9D506F82-1A3C-4BC6-9EFA-C3CFD43CAE9F}</Project>
+      <Name>SmartPortal.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -543,7 +543,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>34141</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:34141/</IISUrl>
+          <IISUrl>http://localhost/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

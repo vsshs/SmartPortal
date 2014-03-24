@@ -57,6 +57,7 @@ namespace SmartPortal.Web
             //  HANDLERS
             activitySystem.UserAdded += activitySystem_UserAdded;
             activitySystem.UserChanged += activitySystem_userChanged;
+
             activitySystem.StartLocationTracker();
             activitySystem.Tracker.TagEnter += Tracker_TagEnter;
 

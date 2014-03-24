@@ -116,6 +116,18 @@ namespace SmartPortal.Web.Controllers_API
 
         }
 
+
+        [System.Web.Http.HttpPost]
+        public object UpdateBlinking(UpdateBuzzerModel model)
+        {
+            var patient = Portal.Instance().FindPatientById(model.PatientId);
+
+            patient.Blink = true;
+
+            Portal.Instance().UpdatePatient(patient);
+
+            return new { Success = true };
+        }
         [System.Web.Http.HttpPost]
         public ServerResponse<int> UpdateMessage(UpdateMessageModel model)
         {

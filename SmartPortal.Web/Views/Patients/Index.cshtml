@@ -76,6 +76,7 @@
                     <p><i>Msg: </i><span class="patient-data" data-bind="text: LastMessage"></span></p>
                 </div>
                 <!-- Controls -->
+                <a class="btn btn-default button-blinker button-patient" href="#" title="Buzz the buzzer" data-bind="attr: { 'data-patient-id': Id }">Blink </a>
                 <a class="btn btn-default button-buzzer button-patient" href="#" title="Buzz the buzzer" data-bind="attr: { 'data-patient-id': Id }">Buzz <span class="glyphicon glyphicon-volume-up" data-bind="    style: { display: Buzz }"></span></a>
                 <a class="btn btn-default button-open button-patient" title="Open the record" data-bind="attr: { 'data-patient-id': Id }">Open</a>
 
@@ -121,6 +122,14 @@
             /* 
                 OTHER STUFF
             */
+
+            $('body').on("click", '.button-blinker', function () {
+                var id = $(this).attr("data-patient-id");
+                $.post("/api/patient/UpdateBlinking", {
+                    PatientId: id
+                }, function () {
+                });
+            });
             $("body").on("click", ".btn-modal-close", function () {
                 //$('body').off('click', ".button-color-select", function () {
                 $("#load-edit-content-here").html("<img src='/Content/ajax-loader.gif' alt='Loading...'/>");
