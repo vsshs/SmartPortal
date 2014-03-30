@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Services.Description;
 using System.Web.UI.WebControls;
 using Microsoft.Ajax.Utilities;
+using NooSphere.Model.Primitives;
 using SmartPortal.Model;
 using SmartPortal.Web.Hubs;
 using SmartPortal.Web.Infrastructure;
@@ -137,7 +138,9 @@ namespace SmartPortal.Web.Controllers
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Sebastian B. Winther",
-                Cpr = "300867-4043"
+                Cpr = "300867-4043",
+                DeviceId = 1113,
+                Color = new Rgb(0, 0, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -179,7 +182,10 @@ namespace SmartPortal.Web.Controllers
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Amanda Kjær",
-                Cpr = "230857-2768"
+                Cpr = "230857-2768",
+                DeviceId = 1112,
+                Color = new Rgb(0, 255, 0)
+
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -209,7 +215,10 @@ namespace SmartPortal.Web.Controllers
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Størm H. Olesen",
-                Cpr = "120656-1285"
+                Cpr = "120656-1285",
+                DeviceId = 1111,
+                Color = new Rgb(255, 0, 0)
+
             });
 
             Portal.Instance().AddPatient(new Patient
