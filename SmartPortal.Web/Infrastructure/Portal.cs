@@ -239,6 +239,10 @@ namespace SmartPortal.Web.Infrastructure
         }
 
 
-        
+        public void RemovePatient(Patient patient)
+        {
+            _activitySystem.RemoveUser(patient.Id);
+
+        }
     }
 }

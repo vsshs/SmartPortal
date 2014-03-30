@@ -59,7 +59,7 @@ namespace SmartPortal.Web.ViewModels
             return new PatientViewModel
             {
                 Id = p.Id,
-                Color = string.Format("rgb({0}, {1}, {2})", p.Color.Red, p.Color.Green, p.Color.Blue),
+                Color = string.Format("rgb({0}, {1}, {2})", p.Color.Red , p.Color.Green, p.Color.Blue),
                 Cpr = p.Cpr,
                 Location = string.IsNullOrEmpty(p.Location)? "- - -":p.Location,
                 Name = p.Name,
