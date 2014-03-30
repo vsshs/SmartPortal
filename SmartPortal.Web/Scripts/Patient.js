@@ -17,6 +17,7 @@ function ItemViewModel(id, name, cpr, location, recordLocation, procedure, color
     self.LastUpdated = ko.observable(lastUpdated);
     self.WithColor = ko.computed(function() {
         return (
+            self.Color() === 'rgb(255, 255, 255)' ||
             self.Color() === 'rgb(255, 255, 0)' ||
             self.Color() === 'rgb(0, 255, 255)' ||
             self.Color() === 'rgb(0, 255, 0)' ? "black" : "whitesmoke");

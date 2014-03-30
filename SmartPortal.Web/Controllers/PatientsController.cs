@@ -70,6 +70,8 @@ namespace SmartPortal.Web.Controllers
 
             var model = PatientViewModel.CreateFromPatient(patient);
 
+            if (model.NurseMessages == null)
+                model.NurseMessages = new Collection<NurseMessageViewModel>();
             foreach (var nurseMessage in patient.NurseMessages.OrderByDescending(m => m.CreatedAt))
             {
                 model.NurseMessages.Add(new NurseMessageViewModel

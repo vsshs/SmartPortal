@@ -11,6 +11,7 @@ using NooSphere.Model.Primitives;
 using SmartPortal.Model;
 using SmartPortal.Web.Hubs;
 using SmartPortal.Web.Infrastructure;
+using System.Collections.ObjectModel;
 
 namespace SmartPortal.Web.Controllers
 {
@@ -120,7 +121,7 @@ namespace SmartPortal.Web.Controllers
             return "OK";
         }
 
-        public void Seed()
+        public string Seed()
         {
             var patients = Portal.Instance().GetPatients();
 
@@ -132,138 +133,280 @@ namespace SmartPortal.Web.Controllers
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Celina C. Olesen",
-                Cpr = "300867-4042"
+                Cpr = "300867-4042",
+                DeviceId = 1113,
+                SonitorTag = "1606",
+                Color = new Rgb(0,255,0),
+                Location = "B4",
+                Procedure = "",
+               NurseMessages = new ObservableCollection<NurseMessage>(
+                    new List<NurseMessage>
+                    {
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014,04,01,00,15,0).ToBinary(),
+                            Message = "All vital signs are OK and patient is sleeping",
+                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                        },
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014,04,01,03,20,0).ToBinary(),
+                            Message = "Stable and sleeping",
+                            NurseId = "3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f"
+                        },
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014,04,01,05,55,0).ToBinary(),
+                            Message = "Patient ",
+                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                        }
+                       
+                    })
+                
+            });
+
+            Portal.Instance().AddPatient(new Patient
+            {
+                Name = "Paolo Tell",
+                Cpr = "010983-4069",
+                Location = "B4",
+                DeviceId = 1111,
+                Procedure = "Observation",
+                SonitorTag  = "1607",
+                Color = new Rgb(255,0,0),
+                NurseMessages = new ObservableCollection<NurseMessage>(
+                    new List<NurseMessage>
+                    {
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014,04,01,01,10,0).ToBinary(),
+                            Message = "Patient complains about feel nauseous-- I gave him extra pain killers",
+                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                        },
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014,04,01,02,15,0).ToBinary(),
+                            Message = "Patient pols and temperature is up and he is vomiting regularly. I called in the night doctor",
+                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                        },
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014,04,01,03,25,0).ToBinary(),
+                            Message = "Assessed state of patient and gave him medication for vomiting",
+                            NurseId = "3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f"
+                        },
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014,04,01,04,40,0).ToBinary(),
+                            Message = "Temperature down a bit but still high pulse.",
+                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                        },
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014,04,01,05,50,0).ToBinary(),
+                            Message = "Patient still has a high pulse, fever and breeding problems",
+                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                        }
+                        
+                    })
+
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Sebastian B. Winther",
                 Cpr = "300867-4043",
-                DeviceId = 1113,
-                Color = new Rgb(0, 0, 255)
+                DeviceId = 1112,
+                Procedure = "None",
+                Color = new Rgb(0, 0, 255),
+                Location = "B3",
+                NurseMessages = new ObservableCollection<NurseMessage>(
+                   new List<NurseMessage>
+                    {
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014, 04, 01, 02, 30, 0).ToBinary(),
+                            Message = "Patient has low saturation and blood pressure. Mild breading problems. Still not concious.",
+                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                        },
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014, 04, 01, 03, 15, 0).ToBinary(),
+                            Message = "Saturation and blood pressure still low, mild fever . Mild breading problems. Still not concious.",
+                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                        },
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014, 04, 01, 05, 15, 0).ToBinary(),
+                            Message = "Patient is stable, but should be closely monitored",
+                            NurseId = "3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f"
+                        },
+                        new NurseMessage
+                        {
+                            CreatedAt = new DateTime(2014, 04, 01, 06, 05, 0).ToBinary(),
+                            Message = "Saturation and blood pressure has normalized. Still not concious.",
+                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                        }
+                        
+                    })
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Mille M. Andreasen",
-                Cpr = "300867-4045"
+                Cpr = "300867-4045",
+                Location = "B5",
+                Procedure = "empty",
+                Color =  new Rgb(255,255,255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Benjamin M. Ravn",
-                Cpr = "120477-2769"
+                Cpr = "120477-2769",
+                Location = "B5",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Malthe M. Lind",
-                Cpr = "180139-3361"
+                Cpr = "180139-3361",
+                Location = "B6",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Kasper C. Pedersen",
-                Cpr = "261231-3167"
+                Cpr = "261231-3167",
+                Location = "B6",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Jonathan Gregersen",
-                Cpr = "210450-1381"
+                Cpr = "210450-1381",
+                Location = "B7",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Line J. Johansen",
-                Cpr = "220188-1490"
+                Cpr = "220188-1490",
+                Location = "B7",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Amanda Kjær",
                 Cpr = "230857-2768",
-                DeviceId = 1112,
-                Color = new Rgb(0, 255, 0)
+                Location = "B8",
+                Color = new Rgb(255, 255, 255)
 
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Tobias A. Poulsen",
-                Cpr = "210232-0789"
+                Cpr = "210232-0789",
+                Location = "B8",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Silas M. Andresen",
-                Cpr = "040167-0505"
+                Cpr = "040167-0505",
+                Location = "B9",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Filippa M. Svendsen",
-                Cpr = "211155-3354"
+                Cpr = "211155-3354",
+                Location = "B9",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Asger F. Olsen",
-                Cpr = "100570-3413"
+                Cpr = "100570-3413",
+                Location = "B10",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Størm H. Olesen",
                 Cpr = "120656-1285",
-                DeviceId = 1111,
-                Color = new Rgb(255, 0, 0)
+                Location = "B10",
+                Color = new Rgb(255, 255, 255)
 
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Melanie Lind",
-                Cpr = "160235-2338"
+                Cpr = "160235-2338",
+                Location = "B11",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Mathias M. Vestergård",
-                Cpr = "030456-2013"
+                Cpr = "030456-2013",
+                Location = "B11",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Sofia J. Nørgaard",
-                Cpr = "210875-0246"
+                Cpr = "210875-0246",
+                Location = "B12",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Jasmin Olesen",
-                Cpr = "261141-3664"
+                Cpr = "261141-3664",
+                Location = "B12",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Thea Lind",
-                Cpr = "030966-2474"
+                Cpr = "030966-2474",
+                Location = "B13",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Maria Steffensen",
-                Cpr = "120466-1886"
+                Cpr = "120466-1886",
+                Location = "B13",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Anders Hansen",
-                Cpr = "110989-4121"
+                Cpr = "110989-4121",
+                Location = "B14",
+                Color = new Rgb(255, 255, 255)
             });
 
-
+            return "done";
 
         }
     }
