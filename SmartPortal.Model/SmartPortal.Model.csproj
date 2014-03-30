@@ -61,7 +61,7 @@
     <None Include="Scripts\toastr.min.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NooSphere\NooSphere\NooSphere.Model\NooSphere.Model.csproj">
+    <ProjectReference Include="D:\GitHub\NooSphere\NooSphere\NooSphere.Model\NooSphere.Model.csproj">
       <Project>{dc2a799f-b985-4a95-9b3c-fecfe14b8597}</Project>
       <Name>NooSphere.Model</Name>
     </ProjectReference>

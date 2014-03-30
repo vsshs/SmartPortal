@@ -17,6 +17,7 @@ namespace SmartPortal.Web.Infrastructure
         private ActivityService _activityService;
         private ActivityClient _client;
 
+        public static bool RenderLocation { get; set; }
 
         //public ObservableCollection<Patient> Patients { get; set; }
         //public ObservableCollection<Nurse> Nurses { get; set; }
@@ -24,6 +25,7 @@ namespace SmartPortal.Web.Infrastructure
 
         private Portal()
         {
+            RenderLocation = true;
             //Patients = new ObservableCollection<Patient>();
             //Nurses = new ObservableCollection<Nurse>();
         }

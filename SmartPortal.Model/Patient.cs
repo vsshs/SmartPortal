@@ -20,6 +20,7 @@ namespace SmartPortal.Model
         private int _rfidTag;
         private bool _blink;
         private string _sonitorTag;
+        private string _ews;
 
         private int _deviceId;
 
@@ -143,6 +144,16 @@ namespace SmartPortal.Model
             {
                 _sonitorTag = value;
                 OnPropertyChanged("sonitorTag");
+            }
+        }
+
+        public string Ews
+        {
+            get { return _ews; }
+            set
+            {
+                _ews = value;
+                OnPropertyChanged("ews");
             }
         }
         

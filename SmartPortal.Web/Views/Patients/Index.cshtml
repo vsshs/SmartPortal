@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SmartPortal.Web.ViewModels.PatientViewModel>
+﻿@using SmartPortal.Web.Infrastructure
+@model IEnumerable<SmartPortal.Web.ViewModels.PatientViewModel>
 
 @{
     ViewBag.Title = "Patients";
@@ -71,7 +72,10 @@
                 <!-- Record data -->
                 <div class="well-heading " data-bind="style: { backgroundColor: Color, color: WithColor }"><b>&nbsp;Record:</b></div>
                 <div class="well well-sm well-moveup" data-bind="style: { backgroundColor: Color, color: WithColor }">
-                    <p><i>Loc: </i><span class="patient-data" data-bind="text: RecordLocation"></span></p>
+                    @if (Portal.RenderLocation)
+                    {
+                        <p><i>Loc: </i><span class="patient-data" data-bind="text: RecordLocation"></span></p>
+                    }
                     <p><i>Proc: </i><span class="patient-data" data-bind="text: Procedure"></span></p>
                     <p><i>Msg: </i><span class="patient-data" data-bind="text: LastMessage"></span></p>
                 </div>

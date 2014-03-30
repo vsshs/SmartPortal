@@ -111,6 +111,7 @@ namespace SmartPortal.Web.Controllers
                 patient.DeviceId = model.DeviceId;
                 patient.SonitorTag = model.SonitorTag;
                 patient.RecordLoaction = model.RecordLocation;
+                patient.Ews = model.Ews;
 
                 Portal.Instance().UpdatePatient(patient);
             }

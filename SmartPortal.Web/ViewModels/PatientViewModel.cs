@@ -41,6 +41,9 @@ namespace SmartPortal.Web.ViewModels
         [JsonProperty("lastUpdated")]
         public long LastUpdated { get; set; }
 
+        [JsonProperty("ews")]
+        public string Ews { get; set; }
+
         public ICollection<NurseMessageViewModel> NurseMessages { get; set; }
 
         public static PatientViewModel CreateFromPatient(Patient p)
@@ -68,7 +71,9 @@ namespace SmartPortal.Web.ViewModels
                 Buzz = p.Buzzer? "inherit": "none",
                 DeviceId = p.DeviceId,
                 SonitorTag = p.SonitorTag,
-                LastUpdated = p.LastUpdated.ToBinary()
+                LastUpdated = p.LastUpdated.ToBinary(),
+                Ews = p.Ews
+
                 
             };
         }

@@ -1,4 +1,5 @@
-﻿@model SmartPortal.Web.ViewModels.PatientViewModel
+﻿@using SmartPortal.Web.Infrastructure
+@model SmartPortal.Web.ViewModels.PatientViewModel
 @using (Ajax.BeginForm("Edit", "Patients", new AjaxOptions
     {
         HttpMethod = "Post",
@@ -47,10 +48,18 @@
                     <span class="input-group-addon ">Sonitor tag</span>
                     <input type="text" class="form-control" placeholder="Sonitor tag id" name ="sonitortag" value="@Model.SonitorTag">
                 </div>
-
+                
+                @if (Portal.RenderLocation)
+                {
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon ">Record location</span>
+                        <input disabled type="text" class="form-control" placeholder="Record location" name="recordlocation" value="@Model.RecordLocation">
+                    </div>
+                }
+                
                 <div class="input-group input-group-sm">
-                    <span class="input-group-addon ">Record location</span>
-                    <input disabled type="text" class="form-control" placeholder="Record location" name="recordlocation" value="@Model.RecordLocation">
+                    <span class="input-group-addon ">EWS</span>
+                    <input type="text" class="form-control" placeholder="Sonitor tag id" name ="EWS" value="@Model.Ews">
                 </div>
                 <!-- COLOR!!! -->
                 <div class="input-group input-group-sm">
