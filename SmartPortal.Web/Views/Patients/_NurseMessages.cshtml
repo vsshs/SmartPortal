@@ -12,7 +12,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title" style="font-size: 0.9em;">Nurse messages</span>
+        <span class="panel-title" style="font-size: 0.9em;">Clinician's messages</span>
     </div>
     <div class="panel-body" style="max-height: 350px; overflow: scroll; overflow-x:hidden;">
         <div style="width: 100%">
@@ -41,7 +41,7 @@
         <!-- /.col-lg-6 -->
         @foreach (var message in Model)
         {
-            <p><i><small>(@message.NurseName @@ @String.Format("{0:dd/MM/yyyy HH:mm}",message.Created.ToLocalTime()))</small></i> @message.Message</p>
+            <p class="clinitian-messages"><i><small>(@message.NurseName @@ @String.Format("{0:dd/MM/yyyy HH:mm}",message.Created.ToLocalTime()))</small></i> @message.Message</p>
         }
     </div>
 </div>

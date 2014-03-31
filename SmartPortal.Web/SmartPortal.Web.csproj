@@ -15,7 +15,7 @@
     <AssemblyName>SmartPortal.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -244,7 +244,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogonController.cs" />
-    <Compile Include="Controllers\NursesController.cs" />
+    <Compile Include="Controllers\CliniciansController.cs" />
     <Compile Include="Controllers\PatientsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers_API\PatientController.cs" />
@@ -494,9 +494,9 @@
     <Content Include="Views\Shared\_NavBar.cshtml" />
     <Content Include="Views\Patients\Index.cshtml" />
     <Content Include="Scripts\toastr.min.js.map" />
-    <Content Include="Views\Nurses\Index.cshtml" />
-    <Content Include="Views\Nurses\_CreateNurse.cshtml" />
-    <Content Include="Views\Nurses\_Nurse.cshtml" />
+    <Content Include="Views\Clinicians\Index.cshtml" />
+    <Content Include="Views\Clinicians\_CreateClinician.cshtml" />
+    <Content Include="Views\Clinicians\_Nurse.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Patients\Create.cshtml" />
     <Content Include="Views\Patients\Index2.cshtml" />
@@ -512,11 +512,11 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NooSphere\NooSphere\NooSphere.Infrastructure\NooSphere.Infrastructure.csproj">
+    <ProjectReference Include="D:\GitHub\NooSphere\NooSphere\NooSphere.Infrastructure\NooSphere.Infrastructure.csproj">
       <Project>{cf6bf4de-e88f-448e-8f6b-f5e2a9e3b033}</Project>
       <Name>NooSphere.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NooSphere\NooSphere\NooSphere.Model\NooSphere.Model.csproj">
+    <ProjectReference Include="D:\GitHub\NooSphere\NooSphere\NooSphere.Model\NooSphere.Model.csproj">
       <Project>{dc2a799f-b985-4a95-9b3c-fecfe14b8597}</Project>
       <Name>NooSphere.Model</Name>
     </ProjectReference>
@@ -543,7 +543,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>34141</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/</IISUrl>
+          <IISUrl>http://localhost:34141/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

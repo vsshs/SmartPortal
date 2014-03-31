@@ -130,39 +130,49 @@ namespace SmartPortal.Web.Controllers
                 Portal.Instance().RemovePatient(patient);
             }
 
+
+            
+
+            //"cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+            //"3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f"
+
+            var nurse1 = "3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f";//nurses.ToArray()[0].Id;
+            var nurse2 = "cf888dce-5295-4082-a132-1dc6d8eeb1ef";//nurses.ToArray()[1].Id;
+
+
             Portal.Instance().AddPatient(new Patient
             {
                 Name = "Celina C. Olesen",
                 Cpr = "300867-4042",
                 DeviceId = 1113,
                 SonitorTag = "1606",
-                Color = new Rgb(0,255,0),
+                Color = new Rgb(0, 255, 0),
                 Location = "B4",
-                Procedure = "",
-               NurseMessages = new ObservableCollection<NurseMessage>(
-                    new List<NurseMessage>
+                Procedure = "Blood test",
+                NurseMessages = new ObservableCollection<NurseMessage>(
+                     new List<NurseMessage>
                     {
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,00,15,0).ToBinary(),
                             Message = "All vital signs are OK and patient is sleeping",
-                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                            NurseId = nurse2
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,03,20,0).ToBinary(),
                             Message = "Stable and sleeping",
-                            NurseId = "3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f"
+                            NurseId = nurse1
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,05,55,0).ToBinary(),
                             Message = "Patient ",
-                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                            NurseId = nurse2
                         }
                        
                     })
-                
+
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -172,8 +182,8 @@ namespace SmartPortal.Web.Controllers
                 Location = "B4",
                 DeviceId = 1111,
                 Procedure = "Observation",
-                SonitorTag  = "1607",
-                Color = new Rgb(255,0,0),
+                SonitorTag = "1607",
+                Color = new Rgb(255, 0, 0),
                 NurseMessages = new ObservableCollection<NurseMessage>(
                     new List<NurseMessage>
                     {
@@ -181,31 +191,31 @@ namespace SmartPortal.Web.Controllers
                         {
                             CreatedAt = new DateTime(2014,04,01,01,10,0).ToBinary(),
                             Message = "Patient complains about feel nauseous-- I gave him extra pain killers",
-                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                            NurseId = nurse2
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,02,15,0).ToBinary(),
                             Message = "Patient pols and temperature is up and he is vomiting regularly. I called in the night doctor",
-                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                            NurseId = nurse2
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,03,25,0).ToBinary(),
                             Message = "Assessed state of patient and gave him medication for vomiting",
-                            NurseId = "3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f"
+                            NurseId = nurse1
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,04,40,0).ToBinary(),
                             Message = "Temperature down a bit but still high pulse.",
-                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                            NurseId = nurse2
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,05,50,0).ToBinary(),
                             Message = "Patient still has a high pulse, fever and breeding problems",
-                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                            NurseId = nurse2
                         }
                         
                     })
@@ -227,13 +237,13 @@ namespace SmartPortal.Web.Controllers
                         {
                             CreatedAt = new DateTime(2014, 04, 01, 02, 30, 0).ToBinary(),
                             Message = "Patient has low saturation and blood pressure. Mild breading problems. Still not concious.",
-                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                            NurseId = nurse2
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014, 04, 01, 03, 15, 0).ToBinary(),
                             Message = "Saturation and blood pressure still low, mild fever . Mild breading problems. Still not concious.",
-                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                            NurseId = nurse2
                         },
                         new NurseMessage
                         {
@@ -245,7 +255,7 @@ namespace SmartPortal.Web.Controllers
                         {
                             CreatedAt = new DateTime(2014, 04, 01, 06, 05, 0).ToBinary(),
                             Message = "Saturation and blood pressure has normalized. Still not concious.",
-                            NurseId = "cf888dce-5295-4082-a132-1dc6d8eeb1ef"
+                            NurseId = nurse2
                         }
                         
                     })
@@ -256,8 +266,8 @@ namespace SmartPortal.Web.Controllers
                 Name = "Mille M. Andreasen",
                 Cpr = "300867-4045",
                 Location = "B5",
-                Procedure = "empty",
-                Color =  new Rgb(255,255,255)
+                Procedure = "Electroencephalography",
+                Color = new Rgb(255, 255, 255)
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -265,7 +275,8 @@ namespace SmartPortal.Web.Controllers
                 Name = "Benjamin M. Ravn",
                 Cpr = "120477-2769",
                 Location = "B5",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Colonoscopy"
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -273,7 +284,9 @@ namespace SmartPortal.Web.Controllers
                 Name = "Malthe M. Lind",
                 Cpr = "180139-3361",
                 Location = "B6",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Gastroscopy"
+
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -281,7 +294,9 @@ namespace SmartPortal.Web.Controllers
                 Name = "Kasper C. Pedersen",
                 Cpr = "261231-3167",
                 Location = "B6",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Sigmoidoscopy"
+
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -289,7 +304,9 @@ namespace SmartPortal.Web.Controllers
                 Name = "Jonathan Gregersen",
                 Cpr = "210450-1381",
                 Location = "B7",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Chest photofluorography"
+
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -297,7 +314,9 @@ namespace SmartPortal.Web.Controllers
                 Name = "Line J. Johansen",
                 Cpr = "220188-1490",
                 Location = "B7",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Respiratory therapy"
+                
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -305,7 +324,8 @@ namespace SmartPortal.Web.Controllers
                 Name = "Amanda Kjær",
                 Cpr = "230857-2768",
                 Location = "B8",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Transcutaneous electrical nerve stimulation"
 
             });
 
@@ -314,7 +334,8 @@ namespace SmartPortal.Web.Controllers
                 Name = "Tobias A. Poulsen",
                 Cpr = "210232-0789",
                 Location = "B8",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Craniosacral therapy"
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -322,7 +343,8 @@ namespace SmartPortal.Web.Controllers
                 Name = "Silas M. Andresen",
                 Cpr = "040167-0505",
                 Location = "B9",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Cryosurgery"
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -330,7 +352,8 @@ namespace SmartPortal.Web.Controllers
                 Name = "Filippa M. Svendsen",
                 Cpr = "211155-3354",
                 Location = "B9",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Laminectomy"
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -338,7 +361,8 @@ namespace SmartPortal.Web.Controllers
                 Name = "Asger F. Olsen",
                 Cpr = "100570-3413",
                 Location = "B10",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Interventional radiology"
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -346,7 +370,9 @@ namespace SmartPortal.Web.Controllers
                 Name = "Størm H. Olesen",
                 Cpr = "120656-1285",
                 Location = "B10",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Cancer vaccine"
+                
 
             });
 
@@ -355,7 +381,9 @@ namespace SmartPortal.Web.Controllers
                 Name = "Melanie Lind",
                 Cpr = "160235-2338",
                 Location = "B11",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "None"
+                
             });
 
             Portal.Instance().AddPatient(new Patient
@@ -387,7 +415,9 @@ namespace SmartPortal.Web.Controllers
                 Name = "Thea Lind",
                 Cpr = "030966-2474",
                 Location = "B13",
-                Color = new Rgb(255, 255, 255)
+                Color = new Rgb(255, 255, 255),
+                Procedure = "Kinesiotherapy"
+                
             });
 
             Portal.Instance().AddPatient(new Patient

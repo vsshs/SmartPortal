@@ -11,7 +11,7 @@ using SmartPortal.Web.ViewModels;
 
 namespace SmartPortal.Web.Controllers
 {
-    public class NursesController : Controller
+    public class CliniciansController : Controller
     {
         //
         // GET: /Nurses/
@@ -22,14 +22,14 @@ namespace SmartPortal.Web.Controllers
         }
 
 
-        public ActionResult CreateNurse()
+        public ActionResult CreateClinician()
         {
             var viewModel = new NurseViewModel();
-            return PartialView("_CreateNurse", viewModel);
+            return PartialView("_CreateClinician", viewModel);
         }
 
         [HttpPost]
-        public ActionResult CreateNurse(NurseViewModel model)
+        public ActionResult CreateClinician(NurseViewModel model)
         {
             
             if (ModelState.IsValid)

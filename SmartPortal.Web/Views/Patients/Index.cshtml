@@ -6,8 +6,6 @@
 }
 
 <style>
-    
-
     .panel-body {
         padding: 5px 10px;
     }
@@ -52,14 +50,22 @@
     .modal-dialog {
         width: 90%;
     }
+
     #patients-view {
         display: none;
+    }
+
+    .clinitian-messages {
+        white-space: normal;
+       padding-left: 1.5em;
+        text-indent:-1.5em;
     }
 </style>
 
 
 
-<div id="loading" style="margin:20px auto; width: 100px;"><img src="/Content/ajax-loader.gif" alt="Loading..." /></div>
+<div id="loading" style="margin: 20px auto; width: 100px;">
+    <img src="/Content/ajax-loader.gif" alt="Loading..." /></div>
 
 <div class="row" id="patients-view" data-bind="foreach: items">
     <div class="col-xs-12 col-sm-6 col-md-3">
@@ -165,11 +171,11 @@
 
                 showingRecord = true;
                 showingRecordId = patientId;
-                
+
                 console.log(showingRecordId);
                 return;
             }
-            
+
             function loadRecordContent(patientId) {
                 $("#load-edit-content-here")
                     .load(editContentUrl + "?patientId=" + patientId, function () {
@@ -185,7 +191,7 @@
             }
 
 
-            
+
             var canBeClicked = true;
             $('body').on('click', ".button-color-select", function () {
                 if (!canBeClicked)
@@ -324,7 +330,7 @@
                     itemFound.LastUpdated(itemToUpdate.LastUpdated());
 
                 }
-                
+
                 if (showingRecord && patient.id === showingRecordId) {
                     console.log("should reload");
                     loadRecordContent(showingRecordId);
@@ -332,10 +338,10 @@
 
             };
 
-            
+
             patientsHub.client.showPatient = function (pId, tabletId) {
                 //toastr.info("Showing patient id=" + pId + " on " + tabletId);
-                if (myTabletId.length > 0  && myTabletId === tabletId && !showingRecord) {
+                if (myTabletId.length > 0 && myTabletId === tabletId && !showingRecord) {
                     showingRecord = true;
                     openRecord(pId);
                 }

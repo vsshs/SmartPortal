@@ -130,14 +130,19 @@ namespace SmartPortal.Web.Controllers
                 return HttpNotFound("Patient with id = " + patientId + " was not found");
             var model = PatientViewModel.CreateFromPatient(patient);
 
+            
             foreach (var nurseMessage in patient.NurseMessages.OrderByDescending(m => m.CreatedAt))
             {
-                model.NurseMessages.Add(new NurseMessageViewModel
-                {
-                    NurseName = Portal.Instance().FindNurseById(nurseMessage.NurseId).Name,
-                    Message = nurseMessage.Message,
-                    Created = DateTime.FromBinary(nurseMessage.CreatedAt)
-                });
+                var nurse = Portal.Instance().FindNurseById(nurseMessage.NurseId);
+                if (nurse == null)
+                    throw new Exception("wrong ID in nurse message");
+
+                    model.NurseMessages.Add(new NurseMessageViewModel
+                    {
+                        NurseName = nurse == null ? "_NOT FOUND_": nurse.Name,
+                        Message = nurseMessage.Message,
+                        Created = DateTime.FromBinary(nurseMessage.CreatedAt)
+                    });
             }
 
             ViewBag.PatientId = patientId;
@@ -172,9 +177,12 @@ namespace SmartPortal.Web.Controllers
 
                 foreach (var nurseMessage in patient.NurseMessages.OrderByDescending(msg => msg.CreatedAt))
                 {
+                    var n = Portal.Instance().FindNurseById(nurseMessage.NurseId);
+                    if (n == null)
+                        throw new Exception("wrong ID in nurse message");
                     m.NurseMessages.Add(new NurseMessageViewModel
                     {
-                        NurseName = Portal.Instance().FindNurseById(nurseMessage.NurseId).Name,
+                        NurseName = n == null ? "_NOT FOUND_": nurse.Name,
                         Message = nurseMessage.Message,
                         Created = DateTime.FromBinary(nurseMessage.CreatedAt)
                     });
