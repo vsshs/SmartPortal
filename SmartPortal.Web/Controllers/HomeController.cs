@@ -136,8 +136,8 @@ namespace SmartPortal.Web.Controllers
             //"cf888dce-5295-4082-a132-1dc6d8eeb1ef"
             //"3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f"
 
-            var nurse1 = "3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f";//nurses.ToArray()[0].Id;
-            var nurse2 = "cf888dce-5295-4082-a132-1dc6d8eeb1ef";//nurses.ToArray()[1].Id;
+            var nurse = "fc7cf126-5f63-42cb-b12c-15e847720373";//nurses.ToArray()[0].Id;
+            var doctor = "22a01251-5799-4d33-903d-98083d76ed24";//nurses.ToArray()[1].Id;
 
 
             Portal.Instance().AddPatient(new Patient
@@ -154,21 +154,21 @@ namespace SmartPortal.Web.Controllers
                     {
                         new NurseMessage
                         {
-                            CreatedAt = new DateTime(2014,04,01,00,15,0).ToBinary(),
+                            CreatedAt = new DateTime(2014,04,01,12,15,0).ToBinary(),
                             Message = "All vital signs are OK and patient is sleeping",
-                            NurseId = nurse2
+                            NurseId = nurse
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,03,20,0).ToBinary(),
                             Message = "Stable and sleeping",
-                            NurseId = nurse1
+                            NurseId = nurse
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,05,55,0).ToBinary(),
                             Message = "Patient ",
-                            NurseId = nurse2
+                            NurseId = nurse
                         }
                        
                     })
@@ -191,31 +191,31 @@ namespace SmartPortal.Web.Controllers
                         {
                             CreatedAt = new DateTime(2014,04,01,01,10,0).ToBinary(),
                             Message = "Patient complains about feel nauseous-- I gave him extra pain killers",
-                            NurseId = nurse2
+                            NurseId = nurse
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,02,15,0).ToBinary(),
                             Message = "Patient pols and temperature is up and he is vomiting regularly. I called in the night doctor",
-                            NurseId = nurse2
+                            NurseId = nurse
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,03,25,0).ToBinary(),
                             Message = "Assessed state of patient and gave him medication for vomiting",
-                            NurseId = nurse1
+                            NurseId = doctor
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,04,40,0).ToBinary(),
                             Message = "Temperature down a bit but still high pulse.",
-                            NurseId = nurse2
+                            NurseId = nurse
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014,04,01,05,50,0).ToBinary(),
                             Message = "Patient still has a high pulse, fever and breeding problems",
-                            NurseId = nurse2
+                            NurseId = nurse
                         }
                         
                     })
@@ -237,25 +237,25 @@ namespace SmartPortal.Web.Controllers
                         {
                             CreatedAt = new DateTime(2014, 04, 01, 02, 30, 0).ToBinary(),
                             Message = "Patient has low saturation and blood pressure. Mild breading problems. Still not concious.",
-                            NurseId = nurse2
+                            NurseId = nurse
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014, 04, 01, 03, 15, 0).ToBinary(),
                             Message = "Saturation and blood pressure still low, mild fever . Mild breading problems. Still not concious.",
-                            NurseId = nurse2
+                            NurseId = nurse
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014, 04, 01, 05, 15, 0).ToBinary(),
                             Message = "Patient is stable, but should be closely monitored",
-                            NurseId = "3cd3fe8f-2e7e-4478-9e70-18ff0f0fa96f"
+                            NurseId = doctor
                         },
                         new NurseMessage
                         {
                             CreatedAt = new DateTime(2014, 04, 01, 06, 05, 0).ToBinary(),
                             Message = "Saturation and blood pressure has normalized. Still not concious.",
-                            NurseId = nurse2
+                            NurseId = nurse
                         }
                         
                     })
