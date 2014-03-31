@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using NooSphere.Infrastructure.ActivityBase;
 using NooSphere.Infrastructure.Context.Location;
+using NooSphere.Model.Notifications;
 using NooSphere.Model.Users;
 using SmartPortal.Model;
 using SmartPortal.Web.Hubs;
@@ -243,6 +244,15 @@ namespace SmartPortal.Web.Infrastructure
         {
             _activitySystem.RemoveUser(patient.Id);
 
+        }
+
+        public void Log(string nurseId, string message)
+        {
+            _activitySystem.AddNotification(new Notification
+            {
+                Name = nurseId,
+                Description = DateTime.UtcNow.ToBinary()+"_-_"+message
+            });
         }
     }
 }

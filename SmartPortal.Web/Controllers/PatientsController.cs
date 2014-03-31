@@ -26,15 +26,7 @@ namespace SmartPortal.Web.Controllers
         }
 
 
-        public ActionResult Index2()
-        {
-            var patients = Portal.Instance().GetPatients();
-            var viewModels = new Collection<PatientViewModel>();
-            foreach (var patient in patients)
-                viewModels.Add(PatientViewModel.CreateFromPatient(patient));
-
-            return View(viewModels);
-        }
+       
 
         [HttpGet]
         public ActionResult Create()
@@ -58,6 +50,8 @@ namespace SmartPortal.Web.Controllers
             };
 
             Portal.Instance().AddPatient(patient);
+
+            
             return RedirectToAction("Create");
         }
 
@@ -188,6 +182,8 @@ namespace SmartPortal.Web.Controllers
                     });
                 }
                 ViewBag.PatientId = model.PatientId;
+
+                Portal.Instance().Log(model.NurseId, "Added message: " + model.Message);
                 return PartialView("_NurseMessages", m.NurseMessages);
 
             }

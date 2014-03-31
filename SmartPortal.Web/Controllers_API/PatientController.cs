@@ -42,7 +42,7 @@ namespace SmartPortal.Web.Controllers_API
             patient.Procedure = model.Procedure;
             patient.NurseMessages.Add(new NurseMessage
             {
-                Message = string.Format("Nurse {0} changed procedure {1}", nurse.Name, model.Procedure )
+                Message = string.Format("Nurse {0} changed procedure {1}", nurse.Name, model.Procedure)
             });
             Portal.Instance().UpdatePatient(patient);
             return new ServerResponse<int>();
@@ -88,7 +88,7 @@ namespace SmartPortal.Web.Controllers_API
             patient.Color = new Rgb(model.R, model.G, model.B);
 
             Portal.Instance().UpdatePatient(patient);
-            return new {Success = true};
+            return new { Success = true };
 
         }
 
@@ -98,7 +98,7 @@ namespace SmartPortal.Web.Controllers_API
             if (model == null)
                 throw new Exception("Could not deserialize model!");
 
-            var nurse = Portal.Instance().VerifyPin(model.Pin);
+            //var nurse = Portal.Instance().VerifyPin(model.Pin);
 
 
             var patient = Portal.Instance().FindPatientById(model.PatientId);
@@ -112,6 +112,11 @@ namespace SmartPortal.Web.Controllers_API
             patient.Buzzer = true;
 
             Portal.Instance().UpdatePatient(patient);
+
+            var nurse = Portal.Instance().FindNurseById(model.NurseId);
+            var name = nurse != null ? nurse.Name : "unknown";
+            Portal.Instance()
+                .Log(model.NurseId, "Buzzer was used on patient name = " + patient.Name + " by " + name);
             return new ServerResponse<int>();
 
         }
@@ -125,6 +130,10 @@ namespace SmartPortal.Web.Controllers_API
             patient.Blink = true;
 
             Portal.Instance().UpdatePatient(patient);
+            var nurse = Portal.Instance().FindNurseById(model.NurseId);
+            var name = nurse != null ? nurse.Name : "unknown";
+            Portal.Instance()
+                .Log(model.NurseId, "blinking was used on patient name = " + patient.Name + " by " + name);
 
             return new { Success = true };
         }
@@ -148,7 +157,7 @@ namespace SmartPortal.Web.Controllers_API
                 };
 
             }
-            
+
 
             patient.NurseMessages.Add(new NurseMessage
             {
@@ -192,7 +201,7 @@ namespace SmartPortal.Web.Controllers_API
                 if (deviceAuth != 0)
                 {
                     patient = Portal.Instance().FindPatientByDevice(deviceAuth);
-                    
+
                 }
                 if (patient == null)
                     return null;
@@ -222,8 +231,8 @@ namespace SmartPortal.Web.Controllers_API
                         changed = true;
                     }
 
-                    
-                        
+
+
                 }
 
                 if (changed)

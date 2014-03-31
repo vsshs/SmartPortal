@@ -499,7 +499,6 @@
     <Content Include="Views\Clinicians\_Nurse.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Patients\Create.cshtml" />
-    <Content Include="Views\Patients\Index2.cshtml" />
     <Content Include="Views\Patients\_Edit.cshtml" />
     <Content Include="Views\Patients\_NurseMessages.cshtml" />
     <Content Include="Views\Patients\_OtherPatientData.cshtml" />

@@ -136,7 +136,8 @@
             $('body').on("click", '.button-blinker', function () {
                 var id = $(this).attr("data-patient-id");
                 $.post("/api/patient/UpdateBlinking", {
-                    PatientId: id
+                    PatientId: id,
+                    NurseId: nurseId
                 }, function () {
                 });
             });
@@ -256,7 +257,8 @@
                     type: 'POST',
                     dataType: "JSON",
                     data: {
-                        patientId: id
+                        patientId: id,
+                        NurseId: nurseId
                     },
                     success: function (result) {
                         console.log(result);
