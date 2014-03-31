@@ -246,6 +246,7 @@ namespace SmartPortal.Web.Controllers
                 Procedure = "None",
                 Color = new Rgb(0, 0, 255),
                 Location = "B3",
+                SonitorTag = "1582",
                 NurseMessages = new ObservableCollection<NurseMessage>(
                    new List<NurseMessage>
                     {
@@ -321,7 +322,7 @@ namespace SmartPortal.Web.Controllers
             {
                 Name = "Malthe M. Lind",
                 Cpr = "180139-3361",
-                Location = "B6",
+                Location = "B6", 
                 Color = new Rgb(255, 0, 255),
                 Procedure = "Gastroscopy",
                 NurseMessages = new ObservableCollection<NurseMessage>(
